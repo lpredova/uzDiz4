@@ -18,9 +18,8 @@ public class OwnerThread implements Runnable {
     }
 
     public void start() {
-        System.out.println("Starting " + "test");
         if (t == null) {
-            t = new Thread(this, "test");
+            t = new Thread(this, "Owner");
             t.start();
         }
     }

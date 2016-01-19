@@ -5,10 +5,15 @@
  */
 package resource.cache;
 
+import resource.ea.Car;
+
 /**
  *
  * @author lovro
  */
 public interface Cache {
-    
+
+    public void release(Car resource);
+
+    public Car acquire(int id);
 }

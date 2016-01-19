@@ -5,6 +5,8 @@
  */
 package theads;
 
+import mvc.View;
+
 /**
  *
  * @author lovro
@@ -16,15 +18,27 @@ public class CarThread implements Runnable{
     @Override
     public void run() {
         
-                System.out.println("Starting " + "test 1231232");
+          int patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval) * 1000;
+        while (true) {
+            try {
+                Thread.sleep(patrolingInterval);
+                View.printText("Hey its meeeeeee");
+              
+
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        
+        
+                
 
         
     }
 
     public void start() {
-        System.out.println("Starting " + "test");
         if (t == null) {
-            t = new Thread(this, "test");
+            t = new Thread(this, "Cars");
             t.start();
         }
     }

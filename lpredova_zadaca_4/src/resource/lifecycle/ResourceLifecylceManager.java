@@ -6,6 +6,7 @@
 package resource.lifecycle;
 
 import java.util.ArrayList;
+import mvc.View;
 import resource.ea.Car;
 import resource.ea.CarEagerAcquisition;
 import resource.ea.Owner;
@@ -44,15 +45,19 @@ public class ResourceLifecylceManager {
         //setting car enter thread
         CarThread ct = new CarThread();
         ct.start();
+        View.printText("Parking lot is open\n");
         
         //setting owner thread
         OwnerThread ot = new OwnerThread();
         ot.run();
+        View.printText("Owners are starting to buzz around!\n");
+
         
         //setting worker thread
         GuardThread gt = new GuardThread();
         gt.run();
-        
+        View.printText("Owners are starting to buzz around!\n");
+  
     }
 
     public static Car acquire(Car type) {
