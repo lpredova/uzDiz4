@@ -16,20 +16,27 @@ public class ParkingZone {
     protected static int ZONE_ID = 0;
 
     int zoneId;
-    int zoneFreePercentage;
-    int zoneCapacity;
-    long zoneEarning;
-    long zonePenalty;
+    int zoneFreePercentage = 0;
+    int zoneCapacity = 0;
+    long zoneEarning = 0;
+    long zonePenalty = 0;
 
-    int carsFled;
-    int carsTowed;
+    int carsFled = 0;
+    int carsTowed = 0;
 
     ArrayList<Car> cars;
+
+    public void increaseFledCarsNumber() {
+        carsFled += 1;
+    }
+    
+    public void increaseZoneEarnings(double paid){
+        this.zoneEarning += paid;
+    }
 
     public ParkingZone() {
         this.zoneCapacity = ZONE_ID++;
     }
-    
 
     public int getZoneId() {
         return zoneId;

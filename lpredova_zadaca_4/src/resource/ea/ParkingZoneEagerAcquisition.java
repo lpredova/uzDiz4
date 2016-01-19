@@ -31,6 +31,8 @@ public class ParkingZoneEagerAcquisition {
         //creating n cars from input args
         for (int i = 1; i <= main.Main.numZones; i++) {
             ParkingZone pz = new ParkingZone();
+            
+            //(i * kapacitetZone) i je broj zone
             pz.setZoneCapacity(i * main.Main.zoneCapacity);
             zones.add(pz);
         }

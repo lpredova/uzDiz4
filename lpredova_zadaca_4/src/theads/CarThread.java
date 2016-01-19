@@ -6,43 +6,38 @@
 package theads;
 
 import java.util.ArrayList;
-import mvc.View;
 import resource.ea.Car;
 
 /**
  *
  * @author lovro
  */
-public class CarThread implements Runnable{
+public class CarThread implements Runnable {
 
     private Thread t;
 
     @Override
     public void run() {
-        
-          int patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval) * 1000;
+
+        //arrival interval
+        //((vremenskaJedinica / intervalDolaska) * generiranaVrijednost1)
+        int arrivalInterval = (int) ((main.Main.timeSlot / main.Main.arrivalInterval) * main.Main.generatedValue1);
         while (true) {
             try {
                 //arrive
                 ArrayList<Car> cars = resource.lifecycle.ResourceLifecylceManager.cars;
-                if(cars.size()>0){
+                if (cars.size() > 0) {
                     resource.lifecycle.ResourceLifecylceManager.acquire(cars.get(0));
                 }
-                
+
                 //depart
-                Thread.sleep(patrolingInterval);
-                View.printText("Hey its meeeeeee");
-              
+                Thread.sleep(arrivalInterval);
 
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
         }
-        
-        
-                
 
-        
     }
 
     public void start() {

@@ -16,7 +16,6 @@ public class CacheImplementation implements Cache{
 
     static HashMap hm = new HashMap();
 
-    
     @Override
     public void release(Car resource) {
        int id = resource.getId();
