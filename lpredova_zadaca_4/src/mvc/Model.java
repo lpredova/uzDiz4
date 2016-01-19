@@ -18,9 +18,9 @@ import resource.ea.ParkingEagerAcquisition;
  */
 public class Model {
 
-    private ArrayList<String> data;
-    public ArrayList<Car> cars;
-    public Parking parking;
+    private static ArrayList<String> data;
+    public static ArrayList<Car> cars;
+    public static Parking parking;
     public static ArrayList<Owner> owners;
 
     public Model(String[] args) {

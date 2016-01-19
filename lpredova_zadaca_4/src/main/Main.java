@@ -5,6 +5,7 @@
  */
 package main;
 
+import java.io.IOException;
 import mvc.Controller;
 import mvc.Model;
 import mvc.View;
@@ -30,7 +31,7 @@ public class Main {
     public static int controlInterval;
     public static int parkingPenalty;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         //validate inputs
         if (Main.validateInput(args)) {
@@ -39,7 +40,7 @@ public class Main {
             View v = new View();
             Model m = new Model(args);
             Controller c = new Controller(v, m);
-            v.getMenu();
+            c.processOption();
 
         } else {
             System.out.println(Helper.errorInput);
