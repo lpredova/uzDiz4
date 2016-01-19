@@ -19,7 +19,7 @@ public class GuardThread implements Runnable {
     public void run() {
 
         int patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval) * 1000;
-        while (true) {
+        /*while (true) {
             try {
                 Thread.sleep(patrolingInterval);
                 View.printText("They see me rolling...they hatin...Patroling...");
@@ -28,7 +28,7 @@ public class GuardThread implements Runnable {
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
-        }
+        }*/
 
     }
 
@@ -41,7 +41,7 @@ public class GuardThread implements Runnable {
     }
 
     private void patrol() {
-
+        
     }
 
 }

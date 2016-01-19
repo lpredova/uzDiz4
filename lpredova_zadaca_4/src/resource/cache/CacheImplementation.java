@@ -5,10 +5,29 @@
  */
 package resource.cache;
 
+import java.util.HashMap;
+import resource.ea.Car;
+
 /**
  *
  * @author lovro
  */
-public class CacheImplementation {
+public class CacheImplementation implements Cache{
+
+    static HashMap hm = new HashMap();
+
+    
+    @Override
+    public void release(Car resource) {
+       int id = resource.getId();
+     hm.put(id, resource );
+    }
+
+    @Override
+    public Car acquire(int id) {
+        Object car = hm.get(id);
+        
+        return (Car) car;
+    }
     
 }

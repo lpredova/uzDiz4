@@ -28,6 +28,12 @@ public class ResourceLifecylceManager {
     public static Parking parking;
     public static ArrayList<Owner> owners;
     private final Evictor evictor;
+    
+    //cars on parking
+    public static ArrayList<Car> parkingCars;
+    public static ArrayList<Car> dumpedCars;
+    public static ArrayList<Owner> parkingOwners;
+    
 
     public ResourceLifecylceManager() {
         
@@ -63,6 +69,19 @@ public class ResourceLifecylceManager {
     public static Car acquire(Car type) {
         
         
+        //select zone
+        int zone = (int) Math.ceil(main.Main.numZones * main.Main.generatedValue2 );
+        
+        
+        //check if there is free space
+        System.out.println("Selected zone is :"+ zone);
+        
+        System.out.println(parking);
+        
+        
+        //fill values
+       
+        parkingCars.add(type);
         
         
       

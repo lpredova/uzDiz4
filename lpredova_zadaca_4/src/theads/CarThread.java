@@ -5,7 +5,9 @@
  */
 package theads;
 
+import java.util.ArrayList;
 import mvc.View;
+import resource.ea.Car;
 
 /**
  *
@@ -21,6 +23,13 @@ public class CarThread implements Runnable{
           int patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval) * 1000;
         while (true) {
             try {
+                //arrive
+                ArrayList<Car> cars = resource.lifecycle.ResourceLifecylceManager.cars;
+                if(cars.size()>0){
+                    resource.lifecycle.ResourceLifecylceManager.acquire(cars.get(0));
+                }
+                
+                //depart
                 Thread.sleep(patrolingInterval);
                 View.printText("Hey its meeeeeee");
               

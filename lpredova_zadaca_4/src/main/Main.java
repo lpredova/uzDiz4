@@ -30,6 +30,10 @@ public class Main {
     public static int unitPrice;
     public static int controlInterval;
     public static int parkingPenalty;
+    public static double generatedValue1;
+    public static double generatedValue2;
+    public static double generatedValue3;
+    public static double generatedValue4;
 
     public static void main(String[] args) throws IOException {
 
