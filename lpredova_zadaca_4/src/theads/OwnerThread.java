@@ -9,10 +9,20 @@ package theads;
  *
  * @author lovro
  */
-public class OwnerThread implements ThreadInterface{
+public class OwnerThread implements Runnable {
+
+    private Thread t;
 
     @Override
     public void run() {
     }
-    
+
+    public void start() {
+        System.out.println("Starting " + "test");
+        if (t == null) {
+            t = new Thread(this, "test");
+            t.start();
+        }
+    }
+
 }

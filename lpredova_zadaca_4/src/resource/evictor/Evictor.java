@@ -22,7 +22,7 @@ public class Evictor implements Runnable {
     @Override
     public void run() {
         // For simplicity, we run forever
-        while (true) {
+        /*while (true) {
             try { // Sleep for configured amount of time
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -42,7 +42,7 @@ public class Evictor implements Runnable {
                     }
                 }
             }
-        }
+        }*/
 
     }
 

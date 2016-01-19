@@ -9,10 +9,23 @@ package theads;
  *
  * @author lovro
  */
-public class CarThread implements ThreadInterface{
+public class CarThread implements Runnable{
+
+    private Thread t;
 
     @Override
     public void run() {
-    }
         
+                System.out.println("Starting " + "test 1231232");
+
+        
+    }
+
+    public void start() {
+        System.out.println("Starting " + "test");
+        if (t == null) {
+            t = new Thread(this, "test");
+            t.start();
+        }
+    }
 }

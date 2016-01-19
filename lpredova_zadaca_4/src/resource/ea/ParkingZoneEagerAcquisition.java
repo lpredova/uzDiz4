@@ -14,7 +14,8 @@ import java.util.List;
  */
 public class ParkingZoneEagerAcquisition {
 
-    List<ParkingZone> zones = new ArrayList<>();;
+    List<ParkingZone> zones = new ArrayList<>();
+    ;
     private static final ParkingZoneEagerAcquisition instance = new ParkingZoneEagerAcquisition();
 
     private ParkingZoneEagerAcquisition() {
@@ -28,8 +29,9 @@ public class ParkingZoneEagerAcquisition {
     public List<ParkingZone> createZones() {
 
         //creating n cars from input args
-        for (int i = 0; i <= main.Main.numZones; i++) {
-            ParkingZone pz= new ParkingZone();
+        for (int i = 1; i <= main.Main.numZones; i++) {
+            ParkingZone pz = new ParkingZone();
+            pz.setZoneCapacity(i * main.Main.zoneCapacity);
             zones.add(pz);
         }
 

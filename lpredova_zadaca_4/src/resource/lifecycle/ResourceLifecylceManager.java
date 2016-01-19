@@ -13,6 +13,7 @@ import resource.ea.Parking;
 import resource.ea.ParkingEagerAcquisition;
 import resource.evictor.Evictor;
 import theads.CarThread;
+
 import theads.GuardThread;
 import theads.OwnerThread;
 
@@ -42,7 +43,7 @@ public class ResourceLifecylceManager {
         
         //setting car enter thread
         CarThread ct = new CarThread();
-        ct.run();
+        ct.start();
         
         //setting owner thread
         OwnerThread ot = new OwnerThread();

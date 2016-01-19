@@ -5,6 +5,8 @@
  */
 package mvc;
 
+import resource.lifecycle.ResourceLifecylceManager;
+
 /**
  *
  * @author Lovro
@@ -12,6 +14,6 @@ package mvc;
 public class Model {
 
     public Model() {
-        
+        resource.lifecycle.ResourceLifecylceManager rlm = new ResourceLifecylceManager();
     }
 }
