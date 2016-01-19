@@ -9,15 +9,15 @@ package util.chain;
  *
  * @author lovro
  */
-abstract class AbstractValidator {
+public abstract class AbstractValidator {
 
     protected AbstractValidator nextValidator;
     protected String errorMsg;
 
-    public void setNextLogger(AbstractValidator nextValidator) {
+    public void setNextValidator(AbstractValidator nextValidator) {
         this.nextValidator = nextValidator;
     }
 
+    public abstract boolean validate(String[] args);
     abstract protected void write(String message);
-
 }

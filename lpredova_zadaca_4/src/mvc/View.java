@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package util.chain;
+package mvc;
+
+import util.Helper;
 
 /**
  *
- * @author lovro
+ * @author Lovro
  */
-public abstract class AbstractInputValidator {
-    
+public class View {
 
-    
+    public void getMenu(){
+        Helper.printMenu();
+    }
 }

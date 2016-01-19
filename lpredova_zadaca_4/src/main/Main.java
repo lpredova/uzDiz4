@@ -5,7 +5,13 @@
  */
 package main;
 
+import mvc.Controller;
+import mvc.Model;
+import mvc.View;
 import util.Helper;
+import util.chain.AbstractValidator;
+import util.chain.ConcreteValidator;
+import util.chain.GeneralValidator;
 
 
 /**
@@ -20,14 +26,28 @@ public class Main {
         //validate inputs
         if (Main.validateInput(args)) {
             System.out.println("Hello world");
+             View v = new View();
+             Model m = new Model();
+             Controller c = new Controller(v, m);
+             v.getMenu();
+             
         } else {
             System.out.println(Helper.errorInput);
         }
     }
 
+    /**
+     * Method that performs validations on input arguments
+     * @param args
+     * @return 
+     */
     private static boolean validateInput(String[] args) {
         
-        return false;
+        AbstractValidator generalValidator = new GeneralValidator();
+        AbstractValidator concreteValidator = new ConcreteValidator();
+        generalValidator.setNextValidator(concreteValidator);
+        
+        return !(!generalValidator.validate(args) || !concreteValidator.validate(args));
     }
 
 }
