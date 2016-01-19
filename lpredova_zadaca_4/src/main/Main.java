@@ -5,19 +5,29 @@
  */
 package main;
 
+import util.Helper;
+
+
 /**
  *
  * @author lovro
  */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
+  
     public static void main(String[] args) {
-        
-        System.out.println("Hello world");
-        // TODO code application logic here
+
+        //validate inputs
+        if (Main.validateInput(args)) {
+            System.out.println("Hello world");
+        } else {
+            System.out.println(Helper.errorInput);
+        }
     }
-    
+
+    private static boolean validateInput(String[] args) {
+        
+        return false;
+    }
+
 }
