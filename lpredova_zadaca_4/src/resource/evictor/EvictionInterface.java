@@ -10,5 +10,10 @@ package resource.evictor;
  * @author lovro
  */
 public interface EvictionInterface {
-    
+
+    public boolean isEvictable();
+
+    public Object info();
+
+    public void beforeEviction();
 }

@@ -1,9 +1,6 @@
 package mvc;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
-import resource.ea.Car;
-import resource.ea.Parking;
 
 
 /**
@@ -33,13 +30,13 @@ public class Controller {
             choice = in.nextLine();
             switch (choice) {
                 case "1":
-                    System.out.println(Model.owners);
+                    /*System.out.println(Model.owners);
                     
                     ArrayList<Car> car = Model.cars;
                     System.out.println(car);
                     
                     Parking parking = Model.parking;
-                    System.out.println(parking);
+                    System.out.println(parking);*/
                     break;
 
                 case "2":

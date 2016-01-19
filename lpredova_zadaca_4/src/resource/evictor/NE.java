@@ -9,6 +9,30 @@ package resource.evictor;
  *
  * @author lovro
  */
-public class NE {
-    
+public class NE implements EvictionInterface {
+
+    @Override
+    public boolean isEvictable() {
+        //check if car has too many penalties, then dump it
+        return true;
+    }
+
+    @Override
+    public Object info() {
+//getting some random object info
+        return null;
+    }
+
+    @Override
+    public void beforeEviction() {
+        //First, release all resources currently held
+        // Now, call beforeEviction() on all NE components
+        // to give them a chance to release necessary resources
+        
+        
+        
+        
+        
+    }
+
 }

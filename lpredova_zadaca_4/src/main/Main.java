@@ -38,7 +38,7 @@ public class Main {
 
             Helper.splitArgs(args);
             View v = new View();
-            Model m = new Model(args);
+            Model m = new Model();
             Controller c = new Controller(v, m);
             c.processOption();
 
