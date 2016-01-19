@@ -27,6 +27,7 @@ public class Main {
 
     private static boolean validateInput(String[] args) {
         
+        Abstact
         return false;
     }
 
