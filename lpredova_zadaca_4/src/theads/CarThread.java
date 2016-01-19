@@ -9,6 +9,10 @@ package theads;
  *
  * @author lovro
  */
-public class CarThread {
-    
+public class CarThread implements ThreadInterface{
+
+    @Override
+    public void run() {
+    }
+        
 }

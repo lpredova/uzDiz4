@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lifecycle;
+package resource.lifecycle;
 
 import java.util.ArrayList;
 import resource.ea.Car;
@@ -12,6 +12,9 @@ import resource.ea.Owner;
 import resource.ea.Parking;
 import resource.ea.ParkingEagerAcquisition;
 import resource.evictor.Evictor;
+import theads.CarThread;
+import theads.GuardThread;
+import theads.OwnerThread;
 
 /**
  *
@@ -38,16 +41,16 @@ public class ResourceLifecylceManager {
         evictor = new Evictor();
         
         //setting car enter thread
-        
-        
-        //setting car thread
-        
+        CarThread ct = new CarThread();
+        ct.run();
         
         //setting owner thread
-        
+        OwnerThread ot = new OwnerThread();
+        ot.run();
         
         //setting worker thread
-        
+        GuardThread gt = new GuardThread();
+        gt.run();
         
     }
 
@@ -67,5 +70,6 @@ public class ResourceLifecylceManager {
     public static void release(Car resource) {
         
         //releasing resource with evictor
+        
     }
 }

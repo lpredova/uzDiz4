@@ -9,7 +9,7 @@ package theads;
  *
  * @author lovro
  */
-public class OwnerThread implements ThreadInterface{
+public class GuardThread implements ThreadInterface{
 
     @Override
     public void run() {

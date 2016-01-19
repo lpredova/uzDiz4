@@ -9,6 +9,7 @@ package theads;
  *
  * @author lovro
  */
-public class WorkerThread {
-    
+public interface ThreadInterface {
+
+    public void run();
 }
