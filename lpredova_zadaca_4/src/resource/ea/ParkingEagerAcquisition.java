@@ -5,27 +5,34 @@
  */
 package resource.ea;
 
+import java.util.ArrayList;
+
+
+
 /**
  *
  * @author lovro
  */
 public class ParkingEagerAcquisition {
- 
+
     
     private static final ParkingEagerAcquisition instance = new ParkingEagerAcquisition();
 
-    private ParkingEagerAcquisition() {
-        
-        
+    public ParkingEagerAcquisition() {
+
     }
 
     public static ParkingEagerAcquisition getInstance() {
         return instance;
     }
-    
-    
-    public void createParking(){
-    
-    
-    }  
+
+    public Parking createParking() {
+        Parking parking = new Parking();
+        
+        //create zones
+        ParkingZoneEagerAcquisition newZone = ParkingZoneEagerAcquisition.getInstance();
+        parking.setZones((ArrayList<ParkingZone>) newZone.createZones());
+        
+        return parking;
+    }
 }

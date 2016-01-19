@@ -5,10 +5,35 @@
  */
 package resource.ea;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author lovro
  */
 public class ParkingZoneEagerAcquisition {
-    
+
+    List<ParkingZone> zones = new ArrayList<ParkingZone>();;
+    private static final ParkingZoneEagerAcquisition instance = new ParkingZoneEagerAcquisition();
+
+    private ParkingZoneEagerAcquisition() {
+
+    }
+
+    public static ParkingZoneEagerAcquisition getInstance() {
+        return instance;
+    }
+
+    public List<ParkingZone> createZones() {
+
+        //creating n cars from input args
+        for (int i = 0; i <= main.Main.numZones; i++) {
+            ParkingZone pz= new ParkingZone();
+            zones.add(pz);
+        }
+
+        return zones;
+    }
+
 }

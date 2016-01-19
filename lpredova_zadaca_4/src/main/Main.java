@@ -13,21 +13,34 @@ import util.chain.AbstractValidator;
 import util.chain.ConcreteValidator;
 import util.chain.GeneralValidator;
 
-
 /**
  *
  * @author lovro
  */
 public class Main {
+
+    public static int numCars;
+    public static int numZones;
+    public static int zoneCapacity;
+    public static int maxParking;
+    public static int timeSlot;
+    public static int arrivalInterval;
+    public static int departureInterval;
+    public static int unitPrice;
+    public static int controlInterval;
+    public static int parkingPenalty;
+
     public static void main(String[] args) {
 
         //validate inputs
         if (Main.validateInput(args)) {
-             View v = new View();
-             Model m = new Model(args);
-             Controller c = new Controller(v, m);
-             v.getMenu();
-             
+
+            Helper.splitArgs(args);
+            View v = new View();
+            Model m = new Model(args);
+            Controller c = new Controller(v, m);
+            v.getMenu();
+
         } else {
             System.out.println(Helper.errorInput);
         }
@@ -35,15 +48,16 @@ public class Main {
 
     /**
      * Method that performs validations on input arguments
+     *
      * @param args
-     * @return 
+     * @return
      */
     private static boolean validateInput(String[] args) {
-        
+
         AbstractValidator generalValidator = new GeneralValidator();
         AbstractValidator concreteValidator = new ConcreteValidator();
         generalValidator.setNextValidator(concreteValidator);
-        
+
         return !(!generalValidator.validate(args) || !concreteValidator.validate(args));
     }
 

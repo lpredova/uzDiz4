@@ -5,10 +5,22 @@
  */
 package resource.ea;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author lovro
  */
 public class Parking {
     
+    List<ParkingZone> zones;
+
+    public List<ParkingZone> getZones() {
+        return zones;
+    }
+
+    public void setZones(ArrayList<ParkingZone> zones) {
+        this.zones = zones;
+    }
 }

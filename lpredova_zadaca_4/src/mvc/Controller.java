@@ -1,12 +1,6 @@
 package mvc;
-import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mvc.Model;
 import mvc.View;
 
