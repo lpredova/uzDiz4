@@ -5,6 +5,8 @@
  */
 package util;
 
+import main.Main;
+
 /**
  *
  * @author lovro
@@ -102,6 +104,19 @@ public class Helper {
                 + "-7 - ispis 5 automobila s najviše parkiranja\n"
                 + "-8 - stanje parkirnih mjesta po zonama (% zauzetih)\n"
                 + "-Q - prekid rada programa.");
+    }
+    
+    public static void splitArgs(String[] args) {
+        Main.numCars = Integer.parseInt(args[0]);
+        Main.numZones = Integer.parseInt(args[1]);
+        Main.zoneCapacity = Integer.parseInt(args[2]);
+        Main.maxParking = Integer.parseInt(args[3]);
+        Main.timeSlot = Integer.parseInt(args[4]);
+        Main.arrivalInterval = Integer.parseInt(args[5]);
+        Main.departureInterval = Integer.parseInt(args[6]);
+        Main.unitPrice = Integer.parseInt(args[7]);
+        Main.controlInterval = Integer.parseInt(args[8]);
+        Main.parkingPenalty = Integer.parseInt(args[9]);
     }
 
 }

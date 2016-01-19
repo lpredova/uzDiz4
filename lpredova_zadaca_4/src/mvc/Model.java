@@ -6,16 +6,33 @@
 package mvc;
 
 import java.util.ArrayList;
+import resource.ea.Car;
+import resource.ea.CarEagerAcquisition;
+import resource.ea.Owner;
+import resource.ea.Parking;
+import resource.ea.ParkingEagerAcquisition;
 
 /**
  *
- * @author Josip
+ * @author Lovro
  */
 public class Model {
 
-    private ArrayList<String> data;
+    private static ArrayList<String> data;
+    public static ArrayList<Car> cars;
+    public static Parking parking;
+    public static ArrayList<Owner> owners;
 
-    public Model() {
+    public Model(String[] args) {
+
+        //create cars
+        CarEagerAcquisition newCar = CarEagerAcquisition.getInstance();
+        cars = (ArrayList<Car>) newCar.createCars();
+
+        //create parkings
+        ParkingEagerAcquisition newParking = ParkingEagerAcquisition.getInstance();
+        parking = newParking.createParking();
+
     }
 
     public ArrayList<String> getData() {
@@ -25,5 +42,7 @@ public class Model {
     public void setData(ArrayList<String> data) {
         this.data = data;
     }
+
+    
 
 }
