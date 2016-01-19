@@ -19,13 +19,10 @@ import util.chain.GeneralValidator;
  * @author lovro
  */
 public class Main {
-
-  
     public static void main(String[] args) {
 
         //validate inputs
         if (Main.validateInput(args)) {
-            System.out.println("Hello world");
              View v = new View();
              Model m = new Model();
              Controller c = new Controller(v, m);
