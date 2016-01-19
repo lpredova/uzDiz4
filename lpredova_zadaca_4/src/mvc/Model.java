@@ -6,16 +6,24 @@
 package mvc;
 
 import java.util.ArrayList;
+import resource.ea.Car;
+import resource.ea.Parking;
 
 /**
  *
- * @author Josip
+ * @author Lovro
  */
 public class Model {
 
     private ArrayList<String> data;
+    
+    public ArrayList<Car> cars;
+    public Parking parking;
 
-    public Model() {
+    public Model(String[] args) {
+        
+        
+        
     }
 
     public ArrayList<String> getData() {

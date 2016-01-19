@@ -10,5 +10,22 @@ package resource.ea;
  * @author lovro
  */
 public class ParkingEagerAcquisition {
+ 
     
+    private static final ParkingEagerAcquisition instance = new ParkingEagerAcquisition();
+
+    private ParkingEagerAcquisition() {
+        
+        
+    }
+
+    public static ParkingEagerAcquisition getInstance() {
+        return instance;
+    }
+    
+    
+    public void createParking(){
+    
+    
+    }  
 }

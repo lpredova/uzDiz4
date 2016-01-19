@@ -24,7 +24,7 @@ public class Main {
         //validate inputs
         if (Main.validateInput(args)) {
              View v = new View();
-             Model m = new Model();
+             Model m = new Model(args);
              Controller c = new Controller(v, m);
              v.getMenu();
              
