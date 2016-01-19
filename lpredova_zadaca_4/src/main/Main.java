@@ -6,6 +6,9 @@
 package main;
 
 import util.Helper;
+import util.chain.AbstractValidator;
+import util.chain.ConcreteValidator;
+import util.chain.GeneralValidator;
 
 
 /**
@@ -25,10 +28,18 @@ public class Main {
         }
     }
 
+    /**
+     * Method that performs validations on input arguments
+     * @param args
+     * @return 
+     */
     private static boolean validateInput(String[] args) {
         
-        Abstact
-        return false;
+        AbstractValidator generalValidator = new GeneralValidator();
+        AbstractValidator concreteValidator = new ConcreteValidator();
+        generalValidator.setNextValidator(concreteValidator);
+        
+        return !(!generalValidator.validate(args) || !concreteValidator.validate(args));
     }
 
 }
