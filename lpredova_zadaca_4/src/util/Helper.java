@@ -14,9 +14,10 @@ public class Helper {
     public static String errorInput = "Whoops! There has been error with params";
 
     /**
-     * Method that checks if 
+     * Method that checks if
+     *
      * @param str
-     * @return 
+     * @return
      */
     public static boolean isNumeric(String str) {
         try {
@@ -26,8 +27,8 @@ public class Helper {
         }
         return true;
     }
-    
-        /**
+
+    /**
      * Validate that value is in range 10-100
      *
      * @return
@@ -88,6 +89,19 @@ public class Helper {
         System.out.println("Number " + value + " is not in range 1-4 ");
 
         return false;
+    }
+
+    public static void printMenu() {
+
+        System.out.println("-1 - zatvaranje parkirališta za nove ulaze automobila\n"
+                + "-2 - otvaranje parkirališta za nove ulaze automobila\n"
+                + "-3 - ispis zarada od parkiranja po zonama\n"
+                + "-4 - ispis zarada od kazni po zonama\n"
+                + "-5 - ispis broja automobila koji nisu mogli parkirati po zonama\n"
+                + "-6 - ispis broja automobila koji je pauk odveo na deponij po zonama\n"
+                + "-7 - ispis 5 automobila s najviše parkiranja\n"
+                + "-8 - stanje parkirnih mjesta po zonama (% zauzetih)\n"
+                + "-Q - prekid rada programa.");
     }
 
 }

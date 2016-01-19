@@ -5,6 +5,9 @@
  */
 package main;
 
+import mvc.Controller;
+import mvc.Model;
+import mvc.View;
 import util.Helper;
 import util.chain.AbstractValidator;
 import util.chain.ConcreteValidator;
@@ -23,6 +26,11 @@ public class Main {
         //validate inputs
         if (Main.validateInput(args)) {
             System.out.println("Hello world");
+             View v = new View();
+             Model m = new Model();
+             Controller c = new Controller(v, m);
+             v.getMenu();
+             
         } else {
             System.out.println(Helper.errorInput);
         }
