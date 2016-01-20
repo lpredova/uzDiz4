@@ -34,6 +34,8 @@ public class ParkingZoneEagerAcquisition {
             
             //(i * kapacitetZone) i je broj zone
             pz.setZoneCapacity(i * main.Main.zoneCapacity);
+            pz.setMaxZoneExtensions(i-1);
+            
             zones.add(pz);
         }
 

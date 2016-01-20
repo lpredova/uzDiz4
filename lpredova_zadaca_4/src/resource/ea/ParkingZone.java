@@ -20,6 +20,15 @@ public class ParkingZone {
     int zoneCapacity = 0;
     long zoneEarning = 0;
     long zonePenalty = 0;
+    int maxZoneExtensions = 0;
+
+    public int getMaxZoneExtensions() {
+        return maxZoneExtensions;
+    }
+
+    public void setMaxZoneExtensions(int maxZoneExtensions) {
+        this.maxZoneExtensions = maxZoneExtensions;
+    }
 
     int carsFled = 0;
     int carsTowed = 0;

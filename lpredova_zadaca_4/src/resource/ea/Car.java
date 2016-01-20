@@ -20,11 +20,20 @@ public class Car {
     double departureTime = 0;
     int state = 0;
     ParkingZone zone;
+    int timesExtended = 0;
 
     double totalPenalty = 0;
     double totalPaid = 0;
     double lastPaid = 0;
     Owner owner;
+
+    public int getTimesExtended() {
+        return timesExtended;
+    }
+
+    public void setTimesExtended(int timesExtended) {
+        this.timesExtended = timesExtended;
+    }
 
     public double getTotalPaid() {
         return totalPaid;
@@ -111,7 +120,8 @@ public class Car {
                 + "Zone:" + getZone().getZoneId() + "\n"
                 + "Paid:" + getLastPaid() + "\n"
                 + "Total:" + getTotalPaid() + "\n"
-                + "Total Penalty" + getTotalPenalty() + "\n"
+                + "Total Penalty:" + getTotalPenalty() + "\n"
+                + "Extensions:" + getTimesExtended() + "\n"
                 + "======================================";
 
         View.printText(info);

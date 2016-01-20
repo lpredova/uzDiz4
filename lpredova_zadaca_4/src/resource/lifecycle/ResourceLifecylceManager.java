@@ -31,17 +31,17 @@ public class ResourceLifecylceManager {
     public static Parking parking;
     public static ArrayList<Owner> owners;
     private final Evictor evictor;
-    
+
     //cars on parking
     public static ArrayList<Car> parkingCars;
     public static ArrayList<Car> dumpedCars;
     public static ArrayList<Owner> parkingOwners;
-    
+
     //cache
     public static CacheImplementation cache = new CacheImplementation();
-            
+
     public ResourceLifecylceManager() {
-        
+
         //create cars
         CarEagerAcquisition newCar = CarEagerAcquisition.getInstance();
         cars = (ArrayList<Car>) newCar.createCars();
@@ -49,76 +49,91 @@ public class ResourceLifecylceManager {
         //create parkings and zones
         ParkingEagerAcquisition newParking = ParkingEagerAcquisition.getInstance();
         parking = newParking.createParking();
-        
+
         //setting evictor
         evictor = new Evictor();
-        
+
         //setting car enter thread
         CarThread ct = new CarThread();
         ct.start();
         View.printText("Parking lot is open\n");
-        
+
         //setting owner thread
         OwnerThread ot = new OwnerThread();
         ot.run();
         View.printText("Owners are starting to buzz around!\n");
 
-        
         //setting worker thread
         GuardThread gt = new GuardThread();
         gt.run();
         View.printText("Owners are starting to buzz around!\n");
-  
+
     }
 
-    public static Car acquire(Car car) {
-        
-        
+    /**
+     * Method for adding new cars to car lot
+     *
+     * @param car
+     */
+    public static void acquire(Car car) {
+
         //select zone
         //(brojZona * generiranaVrijednost2) tako da sve zone imaju istu vjerojatnost odabira
-        int zone = (int) Math.ceil(main.Main.numZones * main.Main.generatedValue2 );
-        
+        int zone = (int) Math.ceil(main.Main.numZones * main.Main.generatedValue2);
+
         List<ParkingZone> zones = parking.getZones();
-        ParkingZone wantedZone =  zones.get(zone-1);
-        
+        ParkingZone wantedZone = zones.get(zone - 1);
+
         //zone is full?
-        if(wantedZone.getZoneCapacity()==wantedZone.getCars().size()){
+        if (wantedZone.getZoneCapacity() == wantedZone.getCars().size()) {
             wantedZone.increaseFledCarsNumber();
             car.setState(0);
             car.printCarInfo();
-        }
-        //everything is ok and car is going to be parked
-        else{
+        } //everything is ok and car is going to be parked
+        else {
             //(i * maksParkiranje * vremenskaJedinica), i je broj zone
             car.setArrivalTime(zone * main.Main.timeSlot * main.Main.maxParking);
-            
+
             //((brojZona + 1 - i) * cijenaJedinice), i je broj zone
-            double paid = ((main.Main.numZones +1 - zone)* main.Main.unitPrice);
+            double paid = ((main.Main.numZones + 1 - zone) * main.Main.unitPrice);
             car.increaseTotalPaid(paid);
             car.setLastPaid(paid);
             car.setZone(wantedZone);
             car.setState(1);
-            
+
             wantedZone.increaseZoneEarnings(paid);
-            
+
             //adding car and owners to data structures
             parkingCars.add(car);
             cache.release(car);
+
+            //saving owner
+            car.getOwner().setCar(car);
             parkingOwners.add(car.getOwner());
-            
+
             //removing car from outside
-            zones.remove(zone-1);
-            
+            zones.remove(zone - 1);
+
             car.printCarInfo();
         }
-
-        return null;
     }
 
+    /**
+     * Method for removing cars from parking lot
+     *
+     * @param car
+     */
+    public static void release(Car car) {
 
-    public static void release(Car resource) {
-        
         //releasing resource with evictor
-        
+        int id = car.getId();
+
+        for (Car car1 : parkingCars) {
+            if (id == car1.getId()) {
+                cache.acquire(id);
+                cars.add(car1);
+                parkingCars.remove(car1);
+            }
+        }
     }
 }
