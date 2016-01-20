@@ -22,6 +22,11 @@ public class ParkingZone {
     long zonePenalty = 0;
     int maxZoneExtensions = 0;
 
+    int carsFled = 0;
+    int carsTowed = 0;
+
+    ArrayList<Car> cars;
+
     public int getMaxZoneExtensions() {
         return maxZoneExtensions;
     }
@@ -30,16 +35,15 @@ public class ParkingZone {
         this.maxZoneExtensions = maxZoneExtensions;
     }
 
-    int carsFled = 0;
-    int carsTowed = 0;
-
-    ArrayList<Car> cars;
-
     public void increaseFledCarsNumber() {
         carsFled += 1;
     }
-    
-    public void increaseZoneEarnings(double paid){
+
+    public void increaseTowedCarsNumber() {
+        carsFled += 1;
+    }
+
+    public void increaseZoneEarnings(double paid) {
         this.zoneEarning += paid;
     }
 

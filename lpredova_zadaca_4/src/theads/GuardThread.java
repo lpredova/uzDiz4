@@ -5,7 +5,11 @@
  */
 package theads;
 
-import mvc.View;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import resource.ea.Car;
+import resource.ea.ParkingZone;
 
 /**
  * @author lovro
@@ -17,17 +21,44 @@ public class GuardThread implements Runnable {
     @Override
     public void run() {
 
-        int patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval) * 1000;
-        /*while (true) {
+        //(vremenskaJedinica / intervalKontrole)
+        while (true) {
+            int patrolingInterval = 1000;
             try {
+
+                ArrayList<Car> parkedCars = resource.lifecycle.ResourceLifecylceManager.parkingCars;
+                List<ParkingZone> zones = resource.lifecycle.ResourceLifecylceManager.parking.getZones();
+
+                //check if parking time is over
+                Date currentDate = new Date();
+
+                for (Car car : parkedCars) {
+                    if (car.getDepartureTime() < currentDate.getTime()) {
+                        //parking expired
+
+                        //((brojZona + 1 - i) * cijenaJedinice * kaznaParkiranja)
+                        long penalty = (main.Main.numZones + 1 - car.getZone().getZoneId()) * main.Main.unitPrice * main.Main.parkingPenalty;
+                        car.setTotalPenalty(penalty);
+                        int zoneId = car.getZone().getZoneId();
+
+                        //editing cars zone
+                        for (ParkingZone zone : zones) {
+                            if (zone.getZoneId() == zoneId) {
+                                zone.increaseZoneEarnings(penalty);
+                                zone.increaseTowedCarsNumber();
+                            }
+                        }
+
+                    }
+                }
+
+                patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval);
                 Thread.sleep(patrolingInterval);
-                View.printText("They see me rolling...they hatin...Patroling...");
-                patrol();
 
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
-        }*/
+        }
 
     }
 
@@ -38,9 +69,4 @@ public class GuardThread implements Runnable {
             t.start();
         }
     }
-
-    private void patrol() {
-
-    }
-
 }

@@ -13,7 +13,8 @@ import java.util.List;
  * @author lovro
  */
 public class Parking {
-    
+
+    boolean open = true;
     List<ParkingZone> zones;
 
     public List<ParkingZone> getZones() {
@@ -23,4 +24,13 @@ public class Parking {
     public void setZones(ArrayList<ParkingZone> zones) {
         this.zones = zones;
     }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+    
 }
