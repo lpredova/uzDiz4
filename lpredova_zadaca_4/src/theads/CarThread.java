@@ -32,7 +32,6 @@ public class CarThread implements Runnable {
                     resource.lifecycle.ResourceLifecylceManager.acquire(car);
                     arrivalInterval = (int) ((main.Main.timeSlot / main.Main.arrivalInterval) * car.getGeneratedValue1());
                 }
-                //depart
                 Thread.sleep(arrivalInterval);
 
             } catch (InterruptedException ex) {

@@ -25,8 +25,7 @@ public class CarEagerAcquisition {
     
     public List<Car> createCars() {
         
-       
-        System.out.println("Broj auta:" + main.Main.numCars);    
+   
         
         //creating n cars from input args
         for (int i = 0; i <= main.Main.numCars; i++) {

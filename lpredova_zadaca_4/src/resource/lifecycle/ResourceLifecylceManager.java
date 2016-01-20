@@ -113,6 +113,7 @@ public class ResourceLifecylceManager {
 
             //removing car from outside
             zones.remove(zone - 1);
+            cars.remove(car);
 
             car.printCarInfo();
         }
@@ -132,7 +133,7 @@ public class ResourceLifecylceManager {
             if (id == car1.getId()) {
                 cache.acquire(id);
                 cars.add(car1);
-                parkingCars.remove(car1);
+                parkingCars.remove(car1);//Todo -> do this with evictor
             }
         }
     }

@@ -8,7 +8,6 @@ package theads;
 import mvc.View;
 
 /**
- *
  * @author lovro
  */
 public class GuardThread implements Runnable {
@@ -41,7 +40,7 @@ public class GuardThread implements Runnable {
     }
 
     private void patrol() {
-        
+
     }
 
 }
