@@ -13,7 +13,5 @@ public interface EvictionInterface {
 
     public boolean isEvictable();
 
-    public Object info();
-
     public void beforeEviction();
 }

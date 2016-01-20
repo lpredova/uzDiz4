@@ -6,13 +6,14 @@
 package resource.ea;
 
 import mvc.View;
+import resource.evictor.EvictionInterface;
 import util.Helper;
 
 /**
  *
  * @author lovro
  */
-public class Car {
+public class Car implements EvictionInterface {
 
     protected static int CAR_ID = 0;
 
@@ -153,8 +154,6 @@ public class Car {
         this.generatedValue4 = generatedValue4;
     }
 
-    
-
     public void printCarInfo() {
 
         String info = "\nCar no:" + getId() + " entered parking lot\n"
@@ -176,9 +175,28 @@ public class Car {
             return "Parking paid";
         } else if (getState() == 2) {
             return "Parking expired";
+        } else if (getState() == 4) {
+            return "Parking extended";
         } else {
             return "Parking not found, moving on...";
         }
     }
 
+    @Override
+    public boolean isEvictable() {
+        return true;
+    }
+
+    @Override
+    public void beforeEviction() { 
+        setArrivalTime(0);
+        setDepartureTime(0);
+        setGeneratedValue1(0);
+        setGeneratedValue2(0);
+        setGeneratedValue3(0);
+        setGeneratedValue4(0);
+        setLastPaid(0);
+        setZone(null);
+
+    }
 }

@@ -30,7 +30,7 @@ public class ResourceLifecylceManager {
     public static ArrayList<Car> cars;
     public static Parking parking;
     public static ArrayList<Owner> owners;
-    private final Evictor evictor;
+    private static Evictor evictor = new Evictor();
 
     //cars on parking
     public static ArrayList<Car> parkingCars;
@@ -50,8 +50,6 @@ public class ResourceLifecylceManager {
         ParkingEagerAcquisition newParking = ParkingEagerAcquisition.getInstance();
         parking = newParking.createParking();
 
-        //setting evictor
-        evictor = new Evictor();
 
         //setting car enter thread
         CarThread ct = new CarThread();
@@ -67,6 +65,9 @@ public class ResourceLifecylceManager {
         GuardThread gt = new GuardThread();
         gt.run();
         View.printText("Owners are starting to buzz around!\n");
+        
+        //start evictor
+        evictor.run();
 
     }
 
@@ -125,16 +126,7 @@ public class ResourceLifecylceManager {
      * @param car
      */
     public static void release(Car car) {
-
         //releasing resource with evictor
-        int id = car.getId();
-
-        for (Car car1 : parkingCars) {
-            if (id == car1.getId()) {
-                cache.acquire(id);
-                cars.add(car1);
-                parkingCars.remove(car1);//Todo -> do this with evictor
-            }
-        }
+        evictor.evict(car);
     }
 }
