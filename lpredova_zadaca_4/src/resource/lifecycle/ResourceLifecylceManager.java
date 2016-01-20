@@ -6,6 +6,7 @@
 package resource.lifecycle;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import mvc.View;
 import resource.cache.CacheImplementation;
@@ -50,7 +51,6 @@ public class ResourceLifecylceManager {
         ParkingEagerAcquisition newParking = ParkingEagerAcquisition.getInstance();
         parking = newParking.createParking();
 
-
         //setting car enter thread
         CarThread ct = new CarThread();
         ct.start();
@@ -65,7 +65,7 @@ public class ResourceLifecylceManager {
         GuardThread gt = new GuardThread();
         gt.run();
         View.printText("Owners are starting to buzz around!\n");
-        
+
         //start evictor
         evictor.run();
 
@@ -92,18 +92,27 @@ public class ResourceLifecylceManager {
             car.printCarInfo();
         } //everything is ok and car is going to be parked
         else {
-            //(i * maksParkiranje * vremenskaJedinica), i je broj zone
-            car.setArrivalTime(zone * main.Main.timeSlot * main.Main.maxParking);
 
+            
+            //Fill car data
+            Date currentDate = new Date();
+            long time = currentDate.getTime();
+            //(i * maksParkiranje * vremenskaJedinica), i je broj zone
+            long timeParked = zone * main.Main.timeSlot * main.Main.maxParking;
             //((brojZona + 1 - i) * cijenaJedinice), i je broj zone
             double paid = ((main.Main.numZones + 1 - zone) * main.Main.unitPrice);
             car.increaseTotalPaid(paid);
             car.setLastPaid(paid);
             car.setZone(wantedZone);
+            car.setArrivalTime(time);
+            car.setDepartureTime(time + timeParked);
             car.setState(1);
+            car.increaseTimesParked();
 
+            
+            //park car into zone
             wantedZone.increaseZoneEarnings(paid);
-
+            wantedZone.addCar(car);
             //adding car and owners to data structures
             parkingCars.add(car);
             cache.release(car);

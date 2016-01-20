@@ -1,6 +1,7 @@
 package mvc;
 import java.io.IOException;
 import java.util.Scanner;
+import resource.ea.Parking;
 
 
 /**
@@ -15,42 +16,41 @@ public class Controller {
     public static int numFile = 0;
     public static int overallSize = 0;
 
-
     public Controller(View view, Model model) {
         this.view = view;
     }
 
-
     public void processOption() throws IOException {
    
         String choice = "";
+        Parking parking = resource.lifecycle.ResourceLifecylceManager.parking;
         do {
             view.getMenu();
             Scanner in = new Scanner(System.in);
             choice = in.nextLine();
             switch (choice) {
                 case "1":
-                    resource.lifecycle.ResourceLifecylceManager.parking.setOpen(true);
+                    parking.setOpen(true);
                     break;
 
                 case "2":
-                    resource.lifecycle.ResourceLifecylceManager.parking.setOpen(false);
+                    parking.setOpen(false);
                     break;
 
                 case "3":
-                    resource.lifecycle.ResourceLifecylceManager.parking.printEarningsPayments();
+                    parking.printEarningsPayments();
                     break;
 
                 case "4":
-                    resource.lifecycle.ResourceLifecylceManager.parking.printEarningsTickets();
+                    parking.printEarningsTickets();
                     break;
 
                 case "5":
-                    resource.lifecycle.ResourceLifecylceManager.parking.printOccupiedByZones();
+                    parking.printOccupiedByZones();
                     break;
 
                 case "6":
-                    resource.lifecycle.ResourceLifecylceManager.parking.printTowedByZones();
+                    parking.printTowedByZones();
                     break;
 
                 case "7":
@@ -58,13 +58,9 @@ public class Controller {
                     break;
 
                 case "8":
-
+                    parking.printZonesPercentage();
                     break;
-
-            }
-
-            
-        
+            }  
         } while (!choice.equalsIgnoreCase("Q"));
 
     }

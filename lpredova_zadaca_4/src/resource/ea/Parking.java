@@ -76,4 +76,16 @@ public class Parking {
         View.printText(text);
     
     }
+    
+    public void printZonesPercentage(){
+        
+        String text = "";
+        for (ParkingZone zone : zones) {
+            text += "Zone " + zone.getZoneId() + " occupied:" + zone.getZoneFreePercentage() +"%"+ "\n";
+        }
+    
+        View.printText(text);
+    
+    }
+    
 }
