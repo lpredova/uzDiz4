@@ -126,10 +126,6 @@ public class Helper {
         Main.unitPrice = Integer.parseInt(args[7]);
         Main.controlInterval = Integer.parseInt(args[8]);
         Main.parkingPenalty = Integer.parseInt(args[9]);
-        Main.generatedValue1 = Helper.randInt();
-        Main.generatedValue2 = Helper.randInt();
-        Main.generatedValue3 = Helper.randInt();
-        Main.generatedValue4 = Helper.randInt();
     }
 
     /**
@@ -138,8 +134,6 @@ public class Helper {
      * @return
      */
     public static double randInt() {
-
         return Math.random();
-
     }
 }

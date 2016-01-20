@@ -21,15 +21,17 @@ public class CarThread implements Runnable {
 
         //arrival interval
         //((vremenskaJedinica / intervalDolaska) * generiranaVrijednost1)
-        int arrivalInterval = (int) ((main.Main.timeSlot / main.Main.arrivalInterval) * main.Main.generatedValue1);
         while (true) {
+            int arrivalInterval = 1000;
+
             try {
                 //arrive
                 ArrayList<Car> cars = resource.lifecycle.ResourceLifecylceManager.cars;
                 if (cars.size() > 0) {
-                    resource.lifecycle.ResourceLifecylceManager.acquire(cars.get(0));
+                    Car car = cars.get(0);
+                    resource.lifecycle.ResourceLifecylceManager.acquire(car);
+                    arrivalInterval = (int) ((main.Main.timeSlot / main.Main.arrivalInterval) * car.getGeneratedValue1());
                 }
-
                 //depart
                 Thread.sleep(arrivalInterval);
 

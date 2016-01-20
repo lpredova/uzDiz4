@@ -6,6 +6,7 @@
 package resource.ea;
 
 import mvc.View;
+import util.Helper;
 
 /**
  *
@@ -26,6 +27,19 @@ public class Car {
     double totalPaid = 0;
     double lastPaid = 0;
     Owner owner;
+
+    double generatedValue1;
+    double generatedValue2;
+    double generatedValue3;
+    double generatedValue4;
+
+    public Car() {
+        this.carId = CAR_ID++;
+        generatedValue1 = Helper.randInt();
+        generatedValue2 = Helper.randInt();
+        generatedValue3 = Helper.randInt();
+        generatedValue4 = Helper.randInt();
+    }
 
     public int getTimesExtended() {
         return timesExtended;
@@ -61,10 +75,6 @@ public class Car {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
-    }
-
-    public Car() {
-        this.carId = CAR_ID++;
     }
 
     public int getId() {
@@ -110,6 +120,40 @@ public class Car {
     public void setTotalPenalty(double totalPenalty) {
         this.totalPenalty = totalPenalty;
     }
+
+    public double getGeneratedValue1() {
+        return generatedValue1;
+    }
+
+    public void setGeneratedValue1(double generatedValue1) {
+        this.generatedValue1 = generatedValue1;
+    }
+
+    public double getGeneratedValue2() {
+        return generatedValue2;
+    }
+
+    public void setGeneratedValue2(double generatedValue2) {
+        this.generatedValue2 = generatedValue2;
+    }
+
+    public double getGeneratedValue3() {
+        return generatedValue3;
+    }
+
+    public void setGeneratedValue3(double generatedValue3) {
+        this.generatedValue3 = generatedValue3;
+    }
+
+    public double getGeneratedValue4() {
+        return generatedValue4;
+    }
+
+    public void setGeneratedValue4(double generatedValue4) {
+        this.generatedValue4 = generatedValue4;
+    }
+
+    
 
     public void printCarInfo() {
 
