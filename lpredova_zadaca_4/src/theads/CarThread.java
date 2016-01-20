@@ -6,6 +6,7 @@
 package theads;
 
 import java.util.ArrayList;
+import mvc.View;
 import resource.ea.Car;
 
 /**
@@ -13,9 +14,9 @@ import resource.ea.Car;
  * @author lovro
  */
 public class CarThread implements Runnable {
-
+    
     private Thread t;
-
+    
     @Override
     public void run() {
 
@@ -23,24 +24,30 @@ public class CarThread implements Runnable {
         //((vremenskaJedinica / intervalDolaska) * generiranaVrijednost1)
         while (true) {
             int arrivalInterval = 1000;
-
+            
             try {
-                //arrive
-                ArrayList<Car> cars = resource.lifecycle.ResourceLifecylceManager.cars;
-                if (cars.size() > 0) {
-                    Car car = cars.get(0);
-                    resource.lifecycle.ResourceLifecylceManager.acquire(car);
-                    arrivalInterval = (int) ((main.Main.timeSlot / main.Main.arrivalInterval) * car.getGeneratedValue1());
+                
+                if (resource.lifecycle.ResourceLifecylceManager.parking.isOpen()) {
+                    //arrive
+                    ArrayList<Car> cars = resource.lifecycle.ResourceLifecylceManager.cars;
+                    if (cars.size() > 0) {
+                        Car car = cars.get(0);
+                        resource.lifecycle.ResourceLifecylceManager.acquire(car);
+                        arrivalInterval = (int) ((main.Main.timeSlot / main.Main.arrivalInterval) * car.getGeneratedValue1());
+                    }
+                    Thread.sleep(arrivalInterval);
+                } else {
+                    
+                    View.printText("Parking is closed!");
                 }
-                Thread.sleep(arrivalInterval);
-
+                
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
         }
-
+        
     }
-
+    
     public void start() {
         if (t == null) {
             t = new Thread(this, "Cars");

@@ -23,6 +23,7 @@ public class Car implements EvictionInterface {
     int state = 0;
     ParkingZone zone;
     int timesExtended = 0;
+    int timesParked = 0;
 
     double totalPenalty = 0;
     double totalPaid = 0;
@@ -48,6 +49,14 @@ public class Car implements EvictionInterface {
 
     public void setTimesExtended(int timesExtended) {
         this.timesExtended = timesExtended;
+    }
+
+    public int getTimesParked() {
+        return timesParked;
+    }
+
+    public void setTimesParked(int timesParked) {
+        this.timesParked = timesParked;
     }
 
     public double getTotalPaid() {

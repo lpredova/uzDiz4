@@ -7,6 +7,7 @@ package resource.ea;
 
 import java.util.ArrayList;
 import java.util.List;
+import mvc.View;
 
 /**
  *
@@ -33,4 +34,46 @@ public class Parking {
         this.open = open;
     }
     
+    public void printEarningsPayments(){
+        
+        String text = "";
+        for (ParkingZone zone : zones) {
+            text += "Zone " + zone.getZoneId() + " earnings:" + zone.getZoneEarning() + "\n";
+        }
+    
+        View.printText(text);
+    }
+    
+    
+    public void printEarningsTickets(){
+        
+        String text = "";
+        for (ParkingZone zone : zones) {
+            text += "Zone " + zone.getZoneId() + " tickets:" + zone.getZonePenalty()+ "\n";
+        }
+    
+        View.printText(text);
+    }
+    
+    public void printOccupiedByZones(){
+        
+        String text = "";
+        for (ParkingZone zone : zones) {
+            text += "Zone " + zone.getZoneId() + " occupied:" + zone.getCarsFled()+ "\n";
+        }
+    
+        View.printText(text);
+    
+    }
+    
+    public void printTowedByZones(){
+        
+        String text = "";
+        for (ParkingZone zone : zones) {
+            text += "Zone " + zone.getZoneId() + " occupied:" + zone.getCarsFled()+ "\n";
+        }
+    
+        View.printText(text);
+    
+    }
 }
