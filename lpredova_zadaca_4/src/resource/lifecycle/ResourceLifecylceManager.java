@@ -88,7 +88,6 @@ public class ResourceLifecylceManager {
         if (wantedZone.getZoneCapacity() == wantedZone.getCars().size()) {
             wantedZone.increaseFledCarsNumber();
             car.setState(0);
-            car.printCarInfo();
         } //everything is ok and car is going to be parked
         else {
 

@@ -63,7 +63,7 @@ public class ParkingZone {
         return zoneFreePercentage;
     }
 
-    public void setZoneFreePercentage(int zoneFreePercentage) {
+    public void setZoneFreePercentage(float zoneFreePercentage) {
         this.zoneFreePercentage = zoneFreePercentage;
     }
 
@@ -126,6 +126,7 @@ public class ParkingZone {
     }
 
     private void calculateCapacityPercentage() {
-        this.zoneFreePercentage = this.cars.size() / this.zoneCapacity;
+        float percentage =  (float)this.cars.size()/getZoneCapacity() ;
+        setZoneFreePercentage(percentage);
     }
 }
