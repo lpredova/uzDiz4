@@ -18,12 +18,13 @@ import resource.lifecycle.ResourceLifecylceManager;
  */
 public class OwnerThread implements Runnable {
 
-    private Thread t;
+    public static Thread ownerThread;
+    private volatile boolean isRunning = true;
 
     @Override
     public void run() {
 
-        while (true) {
+        while (isRunning) {
             try {
                 //departure interval
                 int departureInterval = 1000;
@@ -43,11 +44,15 @@ public class OwnerThread implements Runnable {
     }
 
     public void start() {
-        if (t == null) {
-            t = new Thread(this, "Owner");
-            t.start();
+        if (ownerThread == null) {
+            ownerThread = new Thread(this, "Owner");
+            ownerThread.start();
         }
     }
+    
+    public void kill() {
+       isRunning = false;
+   }
 
     private void doAction(Owner owner) {
 
