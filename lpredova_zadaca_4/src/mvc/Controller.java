@@ -3,12 +3,10 @@ package mvc;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import static java.util.Collections.list;
 import java.util.Comparator;
 import java.util.Scanner;
 import resource.ea.Car;
 import resource.ea.Parking;
-import theads.OwnerThread;
 
 /**
  * Class for receiving user inputs and returning response
@@ -36,27 +34,33 @@ public class Controller {
             choice = in.nextLine();
             switch (choice) {
                 case "1":
-                    parking.setOpen(true);
+                    parking.setOpen(false);
+                    sleepForOutput();
                     break;
 
                 case "2":
-                    parking.setOpen(false);
+                    parking.setOpen(true);
+                    sleepForOutput();
                     break;
 
                 case "3":
                     parking.printEarningsPayments();
+                    sleepForOutput();
                     break;
 
                 case "4":
                     parking.printEarningsTickets();
+                    sleepForOutput();
                     break;
 
                 case "5":
                     parking.printOccupiedByZones();
+                    sleepForOutput();
                     break;
 
                 case "6":
                     parking.printTowedByZones();
+                    sleepForOutput();
                     break;
 
                 case "7":
@@ -72,24 +76,33 @@ public class Controller {
                             return car1.getTimesParked() - car2.getTimesParked();
                         }
                     });
-                    
+
                     allCars = (ArrayList<Car>) allCars.subList(0, 5);
                     View.printText("Top 5 cars parked");
                     for (Car allCar : allCars) {
-                         allCar.printCarInfo();
+                        allCar.printCarInfo();
                     }
 
                     break;
 
                 case "8":
                     parking.printZonesPercentage();
+                    sleepForOutput();
                     break;
             }
         } while (!choice.equalsIgnoreCase("Q"));
-        
-        
-        if(choice.equalsIgnoreCase("Q")){
+
+        if (choice.equalsIgnoreCase("Q")) {
             resource.lifecycle.ResourceLifecylceManager.killThreads();
+            System.exit(0);
+        }
+    }
+
+    private void sleepForOutput() {
+        try {
+            Thread.sleep(1500);                 
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
         }
     }
 }

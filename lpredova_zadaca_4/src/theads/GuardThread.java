@@ -86,5 +86,6 @@ public class GuardThread implements Runnable {
 
     public void kill() {
         isRunning = false;
+        guardThread = null;
     }
 }

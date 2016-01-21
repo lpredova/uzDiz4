@@ -70,7 +70,7 @@ public class Parking {
         
         String text = "";
         for (ParkingZone zone : zones) {
-            text += "Zone " + zone.getZoneId() + " occupied:" + zone.getCarsFled()+ "\n";
+            text += "Zone " + zone.getZoneId() + " occupied:" + zone.getCarsTowed()+ "\n";
         }
     
         View.printText(text);
@@ -81,7 +81,7 @@ public class Parking {
         
         String text = "";
         for (ParkingZone zone : zones) {
-            text += "Zone " + zone.getZoneId() + " occupied:" + zone.getZoneFreePercentage() +"%"+ "\n";
+            text += "Zone " + zone.getZoneId() + " occupied:" + Math.round(zone.getZoneFreePercentage()*100) +"%"+ "\n";
         }
     
         View.printText(text);

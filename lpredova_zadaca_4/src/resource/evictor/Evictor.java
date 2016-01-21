@@ -39,42 +39,44 @@ public class Evictor implements Runnable {
 
     }
 
-    public void evict(Car car) {
+    synchronized public void evict(Car car) {
         int id = car.getId();
         ArrayList<Car> parkingCarsCopy = parkingCars;
-        
-        for (Car car1 : parkingCarsCopy) {
-            if (id == car1.getId() && car1.isEvictable()) {
+       
+            for (Car car1 : parkingCarsCopy) {
+                if (id == car1.getId() && car1.isEvictable()) {
 
-                car1.beforeEviction();
-                cache.acquire(id);
-                cars.add(car1);
-                parkingCars.remove(car1);
+                    car1.beforeEviction();
+                    cache.acquire(id);
+                    cars.add(car1);
+                    //parkingCars.remove(car1);
 
-                //evict car from zone he's in, making copy of Object so we could edit real one
-                List<ParkingZone> zones = resource.lifecycle.ResourceLifecylceManager.parking.getZones();
-                List<ParkingZone> zonesCopy = zones;
-                int i = 0;
-                
-                for (ParkingZone zone : zonesCopy) {
+                    //evict car from zone he's in, making copy of Object so we could edit real one
+                    List<ParkingZone> zones = resource.lifecycle.ResourceLifecylceManager.parking.getZones();
+                    List<ParkingZone> zonesCopy = zones;
+                    int i = 0;
 
-                    //check cars in the zone
-                    ArrayList<Car> zoneCars = zone.getCars();
-                    for (Car car2 : zoneCars) {
-                        if (car2.getId() == car1.getId() && car2 != null) {
-                            zones.get(i).removeCar(car2);
-                            return;
+                    for (ParkingZone zone : zonesCopy) {
+
+                        //check cars in the zone
+                        ArrayList<Car> zoneCars = zone.getCars();
+                        for (Car car2 : zoneCars) {
+
+                            if (car2.getId() == car1.getId() && car2 != null) {
+                                //zones.get(i).removeCar(car2);
+                                return;
+                            }
                         }
+                        i++;
                     }
-                    i++;
                 }
             }
         }
-    }
+  
 
     synchronized public void evictDump(Car car) {
 
-        int carId = car.getId();
+        /*int carId = car.getId();
 
         //get cars zone
         if (car.getId() == carId && car.isEvictable()) {
@@ -93,6 +95,6 @@ public class Evictor implements Runnable {
             car.beforeEviction();
             cache.acquire(carId);
             parkingCars.remove(car);
-        }
+        }*/
     }
 }

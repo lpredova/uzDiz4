@@ -53,19 +53,17 @@ public class ResourceLifecylceManager {
         ParkingEagerAcquisition newParking = ParkingEagerAcquisition.getInstance();
         parking = newParking.createParking();
 
-        
-        
         //setting car enter thread
         ct.start();
         View.printText("Parking lot is open\n");
 
         //setting owner thread
-        ot.run();
+        //ot.run();
         View.printText("Owners started!\n");
 
         //setting worker thread
         //gt.run();
-        evictor.run();
+        //evictor.run();
     }
 
     /**
@@ -73,7 +71,7 @@ public class ResourceLifecylceManager {
      *
      * @param car
      */
-    public static void acquire(Car car) {
+    synchronized public static void acquire(Car car) {
 
         //select zone
         //(brojZona * generiranaVrijednost2) tako da sve zone imaju istu vjerojatnost odabira
@@ -126,7 +124,7 @@ public class ResourceLifecylceManager {
      *
      * @param car
      */
-    public static void release(Car car) {
+    synchronized public static void release(Car car) {
         //releasing resource with evictor
         evictor.evict(car);
     }
@@ -136,12 +134,13 @@ public class ResourceLifecylceManager {
      *
      * @param car
      */
-    public static void releaseDump(Car car) {
+    synchronized public static void releaseDump(Car car) {
         //releasing resource with evictor
         evictor.evictDump(car);
     }
     
     public static void killThreads(){
+        System.out.println("Killing threads");
         gt.kill();
         ct.kill();
         ot.kill();

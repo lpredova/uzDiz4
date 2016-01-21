@@ -58,10 +58,10 @@ public class OwnerThread implements Runnable {
 
     public void kill() {
         isRunning = false;
+        ownerThread = null;
     }
 
     private void doAction(Owner owner) {
-        System.out.println("New owner comming");
         double chance = owner.getCar().getGeneratedValue4();
 
         if (chance <= 0.25f) {

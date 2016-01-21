@@ -225,8 +225,6 @@ public class Car implements EvictionInterface, Comparable<Car> {
         setGeneratedValue3(0);
         setGeneratedValue4(0);
         setLastPaid(0);
-        setZone(null);
-
     }
 
     @Override
