@@ -38,6 +38,10 @@ public class ResourceLifecylceManager {
     public static ArrayList<Car> dumpedCars;
     public static ArrayList<Owner> parkingOwners;
 
+    public static GuardThread gt = new GuardThread();
+    public static OwnerThread ot = new OwnerThread();
+    public static CarThread ct = new CarThread();
+
     //cache
     public static CacheImplementation cache = new CacheImplementation();
 
@@ -52,23 +56,19 @@ public class ResourceLifecylceManager {
         parking = newParking.createParking();
 
         //setting car enter thread
-        CarThread ct = new CarThread();
         ct.start();
         View.printText("Parking lot is open\n");
 
         //setting owner thread
-        OwnerThread ot = new OwnerThread();
         ot.run();
         View.printText("Owners are starting to buzz around!\n");
 
         //setting worker thread
-        GuardThread gt = new GuardThread();
         gt.run();
         View.printText("Owners are starting to buzz around!\n");
 
         //start evictor
         evictor.run();
-
     }
 
     /**
@@ -93,7 +93,6 @@ public class ResourceLifecylceManager {
         } //everything is ok and car is going to be parked
         else {
 
-            
             //Fill car data
             Date currentDate = new Date();
             long time = currentDate.getTime();
@@ -109,7 +108,6 @@ public class ResourceLifecylceManager {
             car.setState(1);
             car.increaseTimesParked();
 
-            
             //park car into zone
             wantedZone.increaseZoneEarnings(paid);
             wantedZone.addCar(car);
@@ -137,5 +135,11 @@ public class ResourceLifecylceManager {
     public static void release(Car car) {
         //releasing resource with evictor
         evictor.evict(car);
+    }
+    
+    public static void killThreads(){
+        gt.kill();
+        ct.kill();
+        ot.kill();
     }
 }

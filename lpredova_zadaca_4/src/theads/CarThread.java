@@ -15,14 +15,15 @@ import resource.ea.Car;
  */
 public class CarThread implements Runnable {
     
-    private Thread t;
+    private volatile boolean isRunning = true;
+    public static Thread carThread;
     
     @Override
     public void run() {
 
         //arrival interval
         //((vremenskaJedinica / intervalDolaska) * generiranaVrijednost1)
-        while (true) {
+        while (isRunning) {
             int arrivalInterval = 1000;
             
             try {
@@ -49,9 +50,13 @@ public class CarThread implements Runnable {
     }
     
     public void start() {
-        if (t == null) {
-            t = new Thread(this, "Cars");
-            t.start();
+        if (carThread == null) {
+            carThread = new Thread(this, "Cars");
+            carThread.start();
         }
     }
+    
+    public void kill() {
+       isRunning = false;
+   }
 }

@@ -16,13 +16,13 @@ import resource.ea.ParkingZone;
  */
 public class GuardThread implements Runnable {
 
-    private Thread t;
+    private volatile boolean isRunning = true;
+    public static Thread guardThread;
 
     @Override
     public void run() {
 
-        //(vremenskaJedinica / intervalKontrole)
-        while (true) {
+        while (isRunning) {
             int patrolingInterval = 1000;
             try {
 
@@ -51,7 +51,8 @@ public class GuardThread implements Runnable {
 
                     }
                 }
-
+         
+                //(vremenskaJedinica / intervalKontrole)
                 patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval);
                 Thread.sleep(patrolingInterval);
 
@@ -64,9 +65,13 @@ public class GuardThread implements Runnable {
 
     public void start() {
 
-        if (t == null) {
-            t = new Thread(this, "Guard");
-            t.start();
+        if (guardThread == null) {
+            guardThread = new Thread(this, "Guard");
+            guardThread.start();
         }
     }
+    
+    public void kill() {
+       isRunning = false;
+   }
 }

@@ -13,7 +13,7 @@ import util.Helper;
  *
  * @author lovro
  */
-public class Car implements EvictionInterface {
+public class Car implements EvictionInterface, Comparable<Car> {
 
     protected static int CAR_ID = 0;
 
@@ -57,6 +57,10 @@ public class Car implements EvictionInterface {
 
     public void setTimesParked(int timesParked) {
         this.timesParked = timesParked;
+    }
+
+    public void increaseTimesParked() {
+        this.timesParked += 1;
     }
 
     public double getTotalPaid() {
@@ -174,6 +178,7 @@ public class Car implements EvictionInterface {
                 + "Total:" + getTotalPaid() + "\n"
                 + "Total Penalty:" + getTotalPenalty() + "\n"
                 + "Extensions:" + getTimesExtended() + "\n"
+                + "Times Parked:" + getTimesParked() + "\n"
                 + "======================================";
 
         View.printText(info);
@@ -197,7 +202,7 @@ public class Car implements EvictionInterface {
     }
 
     @Override
-    public void beforeEviction() { 
+    public void beforeEviction() {
         setArrivalTime(0);
         setDepartureTime(0);
         setGeneratedValue1(0);
@@ -207,5 +212,15 @@ public class Car implements EvictionInterface {
         setLastPaid(0);
         setZone(null);
 
+    }
+
+    @Override
+    public int compareTo(Car c) {
+        int compareTotal = ((Car) c).getTotal();
+        return compareTotal - this.timesParked;
+    }
+
+    private int getTotal() {
+        return this.timesParked;
     }
 }
