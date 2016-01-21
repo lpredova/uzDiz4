@@ -5,6 +5,8 @@
  */
 package resource.ea;
 
+import java.util.Calendar;
+import java.util.Objects;
 import mvc.View;
 import resource.evictor.EvictionInterface;
 import util.Helper;
@@ -15,11 +17,11 @@ import util.Helper;
  */
 public class Car implements EvictionInterface, Comparable<Car> {
 
-    protected static int CAR_ID = 0;
+    protected static int CAR_ID = 1;
 
     int carId;
-    double arrivalTime = 0;
-    double departureTime = 0;
+    long arrivalTime;
+    long departureTime;
     int state = 0;
     ParkingZone zone;
     int timesExtended = 0;
@@ -41,6 +43,8 @@ public class Car implements EvictionInterface, Comparable<Car> {
         generatedValue2 = Helper.randInt();
         generatedValue3 = Helper.randInt();
         generatedValue4 = Helper.randInt();
+        this.arrivalTime = 0;
+        this.departureTime = 0;
     }
 
     public int getTimesExtended() {
@@ -99,7 +103,7 @@ public class Car implements EvictionInterface, Comparable<Car> {
         return arrivalTime;
     }
 
-    public void setArrivalTime(double arrivalTime) {
+    public void setArrivalTime(long arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
@@ -107,7 +111,7 @@ public class Car implements EvictionInterface, Comparable<Car> {
         return departureTime;
     }
 
-    public void setDepartureTime(double departureTime) {
+    public void setDepartureTime(long departureTime) {
         this.departureTime = departureTime;
     }
 
@@ -169,9 +173,17 @@ public class Car implements EvictionInterface, Comparable<Car> {
 
     public void printCarInfo() {
 
+        Calendar date = Calendar.getInstance();
+
+        date.setTimeInMillis((long) (getArrivalTime() * 1000));
+        String arrival = "  " + date.getTime();
+
+        date.setTimeInMillis((long) (getDepartureTime() * 1000));
+        String departure = "  " + date.getTime();
+
         String info = "\nCar no:" + getId() + " entered parking lot\n"
-                + "Time:" + getArrivalTime() + "\n"
-                + "Time:" + getArrivalTime() + "\n"
+                + "Arrival:" + arrival + "\n"
+                + "Valid  :" + departure + "\n"
                 + "Status:" + determineStatus() + "\n"
                 + "Zone:" + getZone().getZoneId() + "\n"
                 + "Paid:" + getLastPaid() + "\n"

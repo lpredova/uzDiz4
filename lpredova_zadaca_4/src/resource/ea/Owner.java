@@ -11,7 +11,7 @@ package resource.ea;
  */
 public class Owner {
  
-    protected static int OWNER_ID = 0;
+    protected static int OWNER_ID = 1;
     
     private int ownerId;
     private Car car;

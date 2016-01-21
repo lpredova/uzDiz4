@@ -30,28 +30,28 @@ public class GuardThread implements Runnable {
                 List<ParkingZone> zones = resource.lifecycle.ResourceLifecylceManager.parking.getZones();
 
                 //check if parking time is over
-                Date currentDate = new Date();
+                long time = System.currentTimeMillis() / 1000L;
 
-                for (Car car : parkedCars) {
-                    if (car.getDepartureTime() < currentDate.getTime()) {
+                if (parkedCars.size() > 0) {
+                    for (Car car : parkedCars) {
+                        if (car.getDepartureTime() < time) {
                         //parking expired
+                            //((brojZona + 1 - i) * cijenaJedinice * kaznaParkiranja)
+                            long penalty = (main.Main.numZones + 1 - car.getZone().getZoneId()) * main.Main.unitPrice * main.Main.parkingPenalty;
+                            car.setTotalPenalty(penalty);
+                            int zoneId = car.getZone().getZoneId();
 
-                        //((brojZona + 1 - i) * cijenaJedinice * kaznaParkiranja)
-                        long penalty = (main.Main.numZones + 1 - car.getZone().getZoneId()) * main.Main.unitPrice * main.Main.parkingPenalty;
-                        car.setTotalPenalty(penalty);
-                        int zoneId = car.getZone().getZoneId();
-
-                        //editing cars zone
-                        for (ParkingZone zone : zones) {
-                            if (zone.getZoneId() == zoneId) {
-                                zone.increaseZoneEarnings(penalty);
-                                zone.increaseTowedCarsNumber();
+                            //editing cars zone
+                            for (ParkingZone zone : zones) {
+                                if (zone.getZoneId() == zoneId) {
+                                    zone.increaseZonePenalty(penalty);
+                                    zone.increaseTowedCarsNumber();
+                                }
                             }
                         }
-
                     }
                 }
-         
+
                 //(vremenskaJedinica / intervalKontrole)
                 patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval);
                 Thread.sleep(patrolingInterval);
@@ -70,8 +70,8 @@ public class GuardThread implements Runnable {
             guardThread.start();
         }
     }
-    
+
     public void kill() {
-       isRunning = false;
-   }
+        isRunning = false;
+    }
 }

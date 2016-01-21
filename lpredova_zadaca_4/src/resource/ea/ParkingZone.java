@@ -50,6 +50,10 @@ public class ParkingZone {
     public void increaseZoneEarnings(double paid) {
         this.zoneEarning += paid;
     }
+    
+    public void increaseZonePenalty(double paid) {
+        this.zonePenalty+= paid;
+    }
 
     public int getZoneId() {
         return zoneId;

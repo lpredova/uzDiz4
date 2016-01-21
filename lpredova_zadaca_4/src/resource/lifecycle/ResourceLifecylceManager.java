@@ -6,7 +6,6 @@
 package resource.lifecycle;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import mvc.View;
 import resource.cache.CacheImplementation;
@@ -63,7 +62,7 @@ public class ResourceLifecylceManager {
         View.printText("Owners started!\n");
 
         //setting worker thread
-        //gt.run();
+        gt.run();
         View.printText("Guard started!\n");
 
         //start evictor
@@ -88,12 +87,11 @@ public class ResourceLifecylceManager {
         if (wantedZone.getZoneCapacity() == wantedZone.getCars().size()) {
             wantedZone.increaseFledCarsNumber();
             car.setState(0);
+            System.out.println("Place not found");
         } //everything is ok and car is going to be parked
         else {
 
-            //Fill car data
-            Date currentDate = new Date();
-            long time = currentDate.getTime();
+            long time = System.currentTimeMillis() / 1000L;
             //(i * maksParkiranje * vremenskaJedinica), i je broj zone
             long timeParked = zone * main.Main.timeSlot * main.Main.maxParking;
             //((brojZona + 1 - i) * cijenaJedinice), i je broj zone
@@ -101,8 +99,10 @@ public class ResourceLifecylceManager {
             car.increaseTotalPaid(paid);
             car.setLastPaid(paid);
             car.setZone(wantedZone);
+            
             car.setArrivalTime(time);
             car.setDepartureTime(time + timeParked);
+            
             car.setState(1);
             car.increaseTimesParked();
 
