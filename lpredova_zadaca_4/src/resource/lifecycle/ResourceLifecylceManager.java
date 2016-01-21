@@ -30,13 +30,12 @@ public class ResourceLifecylceManager {
 
     public static ArrayList<Car> cars;
     public static Parking parking;
-    public static ArrayList<Owner> owners;
     private static Evictor evictor = new Evictor();
 
     //cars on parking
-    public static ArrayList<Car> parkingCars;
-    public static ArrayList<Car> dumpedCars;
-    public static ArrayList<Owner> parkingOwners;
+    public static ArrayList<Car> parkingCars = new ArrayList<>();
+    public static ArrayList<Car> dumpedCars = new ArrayList<>();
+    public static ArrayList<Owner> parkingOwners = new ArrayList<>();
 
     public static GuardThread gt = new GuardThread();
     public static OwnerThread ot = new OwnerThread();
@@ -60,12 +59,12 @@ public class ResourceLifecylceManager {
         View.printText("Parking lot is open\n");
 
         //setting owner thread
-        ot.run();
-        View.printText("Owners are starting to buzz around!\n");
+        //ot.run();
+        View.printText("Owners started!\n");
 
         //setting worker thread
         gt.run();
-        View.printText("Owners are starting to buzz around!\n");
+        View.printText("Guard started!\n");
 
         //start evictor
         evictor.run();

@@ -27,16 +27,18 @@ public class OwnerThread implements Runnable {
         while (isRunning) {
             try {
                 //departure interval
-                int departureInterval = 1000;
-                if (ResourceLifecylceManager.parkingOwners.size() > 0) {
+                int departureInterval;
+                ArrayList<Owner> owners = ResourceLifecylceManager.parkingOwners;
+                
+                if (owners.size() > 0) {
                     Owner owner = ResourceLifecylceManager.parkingOwners.get(0);
                     //((vremenskaJedinica / intervalOdlaska) * generiranaVrijednost3)
                     departureInterval = (int) ((main.Main.timeSlot / main.Main.departureInterval) * owner.getCar().getGeneratedValue3());
                     doAction(owner);
+                    Thread.sleep(departureInterval);
                 }
 
                 //depart
-                Thread.sleep(departureInterval);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }

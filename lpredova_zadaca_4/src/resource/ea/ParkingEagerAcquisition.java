@@ -7,27 +7,22 @@ package resource.ea;
 
 import java.util.ArrayList;
 
-
-
 /**
  *
  * @author lovro
  */
 public class ParkingEagerAcquisition {
-
     
+    Parking parking = new Parking();
     private static final ParkingEagerAcquisition instance = new ParkingEagerAcquisition();
 
-    public ParkingEagerAcquisition() {
-
-    }
+    public ParkingEagerAcquisition() {}
 
     public static ParkingEagerAcquisition getInstance() {
         return instance;
     }
 
     public Parking createParking() {
-        Parking parking = new Parking();
         
         //create zones
         ParkingZoneEagerAcquisition newZone = ParkingZoneEagerAcquisition.getInstance();

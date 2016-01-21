@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class ParkingZone {
 
-    protected static int ZONE_ID = 0;
+    protected static int ZONE_ID = 1;
 
     int zoneId;
     float zoneFreePercentage = 0;
@@ -26,6 +26,10 @@ public class ParkingZone {
     int carsTowed = 0;
 
     ArrayList<Car> cars;
+
+    public ParkingZone() {
+        this.zoneId = ZONE_ID++;
+    }
 
     public int getMaxZoneExtensions() {
         return maxZoneExtensions;
@@ -45,10 +49,6 @@ public class ParkingZone {
 
     public void increaseZoneEarnings(double paid) {
         this.zoneEarning += paid;
-    }
-
-    public ParkingZone() {
-        this.zoneCapacity = ZONE_ID++;
     }
 
     public int getZoneId() {
@@ -114,18 +114,18 @@ public class ParkingZone {
     public void setCars(ArrayList<Car> cars) {
         this.cars = cars;
     }
-    
-    public void addCar(Car car){
+
+    public void addCar(Car car) {
         this.cars.add(car);
         calculateCapacityPercentage();
     }
-    
-    public void removeCar(Car car){
+
+    public void removeCar(Car car) {
         this.cars.remove(car);
         calculateCapacityPercentage();
     }
-    
-    private void calculateCapacityPercentage(){
-        this.zoneFreePercentage = this.cars.size()/this.zoneCapacity;
+
+    private void calculateCapacityPercentage() {
+        this.zoneFreePercentage = this.cars.size() / this.zoneCapacity;
     }
 }
