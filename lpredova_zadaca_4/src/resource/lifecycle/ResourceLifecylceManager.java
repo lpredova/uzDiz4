@@ -63,7 +63,7 @@ public class ResourceLifecylceManager {
         View.printText("Owners started!\n");
 
         //setting worker thread
-        gt.run();
+        //gt.run();
         View.printText("Guard started!\n");
 
         //start evictor
@@ -119,7 +119,6 @@ public class ResourceLifecylceManager {
             parkingOwners.add(car.getOwner());
 
             //removing car from outside
-            zones.remove(zone - 1);
             cars.remove(car);
 
             car.printCarInfo();

@@ -26,7 +26,7 @@ public class CarEagerAcquisition {
     public List<Car> createCars() {
 
         //creating n cars from input args
-        for (int i = 0; i <= main.Main.numCars; i++) {            
+        for (int i = 1; i <= main.Main.numCars; i++) {            
             Car car = new Car(); 
             Owner owner = new Owner(car);
             car.setOwner(owner);

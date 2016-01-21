@@ -25,7 +25,7 @@ public class ParkingZone {
     int carsFled = 0;
     int carsTowed = 0;
 
-    ArrayList<Car> cars;
+    ArrayList<Car> cars = new ArrayList<>();
 
     public ParkingZone() {
         this.zoneId = ZONE_ID++;

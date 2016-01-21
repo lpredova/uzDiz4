@@ -15,7 +15,7 @@ import java.util.List;
 public class ParkingZoneEagerAcquisition {
 
     List<ParkingZone> zones = new ArrayList<>();
-    ;
+    
     private static final ParkingZoneEagerAcquisition instance = new ParkingZoneEagerAcquisition();
 
     private ParkingZoneEagerAcquisition() {
