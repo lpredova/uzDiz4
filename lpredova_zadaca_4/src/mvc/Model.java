@@ -5,12 +5,7 @@
  */
 package mvc;
 
-import java.util.ArrayList;
-import resource.ea.Car;
-import resource.ea.CarEagerAcquisition;
-import resource.ea.Owner;
-import resource.ea.Parking;
-import resource.ea.ParkingEagerAcquisition;
+import resource.lifecycle.ResourceLifecylceManager;
 
 /**
  *
@@ -18,31 +13,7 @@ import resource.ea.ParkingEagerAcquisition;
  */
 public class Model {
 
-    private static ArrayList<String> data;
-    public static ArrayList<Car> cars;
-    public static Parking parking;
-    public static ArrayList<Owner> owners;
-
-    public Model(String[] args) {
-
-        //create cars
-        CarEagerAcquisition newCar = CarEagerAcquisition.getInstance();
-        cars = (ArrayList<Car>) newCar.createCars();
-
-        //create parkings
-        ParkingEagerAcquisition newParking = ParkingEagerAcquisition.getInstance();
-        parking = newParking.createParking();
-
+    public Model() {
+        resource.lifecycle.ResourceLifecylceManager rlm = new ResourceLifecylceManager();
     }
-
-    public ArrayList<String> getData() {
-        return data;
-    }
-
-    public void setData(ArrayList<String> data) {
-        this.data = data;
-    }
-
-    
-
 }

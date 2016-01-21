@@ -5,6 +5,7 @@
  */
 package util;
 
+import java.util.Random;
 import main.Main;
 
 /**
@@ -93,6 +94,9 @@ public class Helper {
         return false;
     }
 
+    /**
+     * Method for printing menu
+     */
     public static void printMenu() {
 
         System.out.println("-1 - zatvaranje parkirališta za nove ulaze automobila\n"
@@ -105,7 +109,12 @@ public class Helper {
                 + "-8 - stanje parkirnih mjesta po zonama (% zauzetih)\n"
                 + "-Q - prekid rada programa.");
     }
-    
+
+    /**
+     * Method for parsing arguments and saving them to main
+     *
+     * @param args
+     */
     public static void splitArgs(String[] args) {
         Main.numCars = Integer.parseInt(args[0]);
         Main.numZones = Integer.parseInt(args[1]);
@@ -119,4 +128,12 @@ public class Helper {
         Main.parkingPenalty = Integer.parseInt(args[9]);
     }
 
+    /**
+     * Method for getting random number in range (0,000-1,000)
+
+     * @return
+     */
+    public static double randInt() {
+        return Math.random();
+    }
 }

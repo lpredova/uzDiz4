@@ -16,4 +16,8 @@ public class View {
     public void getMenu(){
         Helper.printMenu();
     }
+    
+    public static void printText(String text){
+        System.out.println(text);
+    }
 }

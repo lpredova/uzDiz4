@@ -16,20 +16,40 @@ public class ParkingZone {
     protected static int ZONE_ID = 0;
 
     int zoneId;
-    int zoneFreePercentage;
-    int zoneCapacity;
-    long zoneEarning;
-    long zonePenalty;
+    float zoneFreePercentage = 0;
+    int zoneCapacity = 0;
+    long zoneEarning = 0;
+    long zonePenalty = 0;
+    int maxZoneExtensions = 0;
 
-    int carsFled;
-    int carsTowed;
+    int carsFled = 0;
+    int carsTowed = 0;
 
     ArrayList<Car> cars;
+
+    public int getMaxZoneExtensions() {
+        return maxZoneExtensions;
+    }
+
+    public void setMaxZoneExtensions(int maxZoneExtensions) {
+        this.maxZoneExtensions = maxZoneExtensions;
+    }
+
+    public void increaseFledCarsNumber() {
+        carsFled += 1;
+    }
+
+    public void increaseTowedCarsNumber() {
+        carsFled += 1;
+    }
+
+    public void increaseZoneEarnings(double paid) {
+        this.zoneEarning += paid;
+    }
 
     public ParkingZone() {
         this.zoneCapacity = ZONE_ID++;
     }
-    
 
     public int getZoneId() {
         return zoneId;
@@ -39,7 +59,7 @@ public class ParkingZone {
         this.zoneId = zoneId;
     }
 
-    public int getZoneFreePercentage() {
+    public float getZoneFreePercentage() {
         return zoneFreePercentage;
     }
 
@@ -94,5 +114,18 @@ public class ParkingZone {
     public void setCars(ArrayList<Car> cars) {
         this.cars = cars;
     }
-
+    
+    public void addCar(Car car){
+        this.cars.add(car);
+        calculateCapacityPercentage();
+    }
+    
+    public void removeCar(Car car){
+        this.cars.remove(car);
+        calculateCapacityPercentage();
+    }
+    
+    private void calculateCapacityPercentage(){
+        this.zoneFreePercentage = this.cars.size()/this.zoneCapacity;
+    }
 }
