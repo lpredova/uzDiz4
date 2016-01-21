@@ -11,6 +11,7 @@ import resource.ea.Car;
 import resource.ea.Owner;
 import resource.ea.ParkingZone;
 import resource.lifecycle.ResourceLifecylceManager;
+import util.Helper;
 
 /**
  *
@@ -22,20 +23,23 @@ public class OwnerThread implements Runnable {
     private volatile boolean isRunning = true;
 
     @Override
-    public void run() {
+    synchronized public void run() {
 
         while (isRunning) {
             try {
                 //departure interval
                 int departureInterval;
                 ArrayList<Owner> owners = ResourceLifecylceManager.parkingOwners;
-                
+
                 if (owners.size() > 0) {
-                    Owner owner = ResourceLifecylceManager.parkingOwners.get(0);
-                    //((vremenskaJedinica / intervalOdlaska) * generiranaVrijednost3)
-                    departureInterval = (int) ((main.Main.timeSlot / main.Main.departureInterval) * owner.getCar().getGeneratedValue3());
-                    doAction(owner);
-                    Thread.sleep(departureInterval);
+                    for (Owner owner : owners) {
+                       
+                        //((vremenskaJedinica / intervalOdlaska) * generiranaVrijednost3)
+                        departureInterval = (int) ((main.Main.timeSlot / main.Main.departureInterval) * owner.getCar().getGeneratedValue3());
+                        doAction(owner);
+                        Thread.sleep(departureInterval);
+                    }
+
                 }
 
                 //depart
@@ -51,18 +55,17 @@ public class OwnerThread implements Runnable {
             ownerThread.start();
         }
     }
-    
+
     public void kill() {
-       isRunning = false;
-   }
+        isRunning = false;
+    }
 
     private void doAction(Owner owner) {
-
+        System.out.println("New owner comming");
         double chance = owner.getCar().getGeneratedValue4();
 
         if (chance <= 0.25f) {
             //do nothing
-
         } else if (chance > 0.25f && chance <= 0.50f) {
             //exit
             resource.lifecycle.ResourceLifecylceManager.release(owner.getCar());
@@ -83,7 +86,10 @@ public class OwnerThread implements Runnable {
                         //(i * maksParkiranje * vremenskaJedinica), i je broj zone
                         ParkingZone zone = owner.getCar().getZone();
 
-                        car.setArrivalTime(zone.getZoneId() * main.Main.timeSlot * main.Main.maxParking);
+                        long arrivalTime = System.currentTimeMillis() / 1000L;
+
+                        car.setArrivalTime(arrivalTime);
+                        car.setDepartureTime(arrivalTime + (zone.getZoneId() * main.Main.timeSlot * main.Main.maxParking));
 
                         //((brojZona + 1 - i) * cijenaJedinice), i je broj zone
                         double paid = ((main.Main.numZones + 1 - zone.getZoneId()) * main.Main.unitPrice);
@@ -91,8 +97,11 @@ public class OwnerThread implements Runnable {
                         car.setLastPaid(paid);
                         car.setZone(zone);
                         car.setState(2);
+                        car.increaseTimesExtender();
+                        car.setGeneratedValue4(Helper.randInt());
 
                         zone.increaseZoneEarnings(paid);
+                        break;
                     }
                 }
 

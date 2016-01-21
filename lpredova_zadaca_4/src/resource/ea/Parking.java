@@ -16,7 +16,7 @@ import mvc.View;
 public class Parking {
 
     boolean open = true;
-    List<ParkingZone> zones;
+    ArrayList<ParkingZone> zones;
 
     public List<ParkingZone> getZones() {
         return zones;
@@ -86,6 +86,16 @@ public class Parking {
     
         View.printText(text);
     
+    }
+    
+    public ParkingZone getZoneById(int zoneId){
+
+        for (ParkingZone zone : zones) {
+            if(zone.getZoneId()==zoneId){
+                return zone;
+            }
+        }
+        return null;
     }
     
 }

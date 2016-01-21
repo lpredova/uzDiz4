@@ -6,7 +6,6 @@
 package resource.ea;
 
 import java.util.Calendar;
-import java.util.Objects;
 import mvc.View;
 import resource.evictor.EvictionInterface;
 import util.Helper;
@@ -65,6 +64,10 @@ public class Car implements EvictionInterface, Comparable<Car> {
 
     public void increaseTimesParked() {
         this.timesParked += 1;
+    }
+    
+    public void increaseTimesExtender() {
+        this.timesExtended += 1;
     }
 
     public double getTotalPaid() {

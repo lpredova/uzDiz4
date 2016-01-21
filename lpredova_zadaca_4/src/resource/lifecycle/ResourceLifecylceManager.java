@@ -53,19 +53,18 @@ public class ResourceLifecylceManager {
         ParkingEagerAcquisition newParking = ParkingEagerAcquisition.getInstance();
         parking = newParking.createParking();
 
+        
+        
         //setting car enter thread
         ct.start();
         View.printText("Parking lot is open\n");
 
         //setting owner thread
-        //ot.run();
+        ot.run();
         View.printText("Owners started!\n");
 
         //setting worker thread
-        gt.run();
-        View.printText("Guard started!\n");
-
-        //start evictor
+        //gt.run();
         evictor.run();
     }
 
@@ -86,8 +85,6 @@ public class ResourceLifecylceManager {
         //zone is full?
         if (wantedZone.getZoneCapacity() == wantedZone.getCars().size()) {
             wantedZone.increaseFledCarsNumber();
-            car.setState(0);
-            System.out.println("Place not found");
         } //everything is ok and car is going to be parked
         else {
 
@@ -132,6 +129,16 @@ public class ResourceLifecylceManager {
     public static void release(Car car) {
         //releasing resource with evictor
         evictor.evict(car);
+    }
+    
+    /**
+     * Method for removing cars from parking lot
+     *
+     * @param car
+     */
+    public static void releaseDump(Car car) {
+        //releasing resource with evictor
+        evictor.evictDump(car);
     }
     
     public static void killThreads(){

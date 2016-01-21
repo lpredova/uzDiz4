@@ -6,8 +6,9 @@
 package theads;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
+import mvc.View;
 import resource.ea.Car;
 import resource.ea.ParkingZone;
 
@@ -20,22 +21,32 @@ public class GuardThread implements Runnable {
     public static Thread guardThread;
 
     @Override
-    public void run() {
+    synchronized public void run() {
+        View.printText("Guard is starting shift..");
 
         while (isRunning) {
             int patrolingInterval = 1000;
             try {
-
                 ArrayList<Car> parkedCars = resource.lifecycle.ResourceLifecylceManager.parkingCars;
                 List<ParkingZone> zones = resource.lifecycle.ResourceLifecylceManager.parking.getZones();
-
                 //check if parking time is over
                 long time = System.currentTimeMillis() / 1000L;
 
                 if (parkedCars.size() > 0) {
+
                     for (Car car : parkedCars) {
-                        if (car.getDepartureTime() < time) {
-                        //parking expired
+                        System.out.println("Working..");
+                        long carDepartureTime = (long) car.getDepartureTime();
+
+                        Calendar date = Calendar.getInstance();
+
+                        date.setTimeInMillis((long) (car.getDepartureTime() * 1000));
+                        String departure = "  " + date.getTime();
+
+                        if (carDepartureTime < (long) time) {
+                            System.out.println("Car" + car.getId() + "Parking expired:" + departure);
+
+                            //parking expired
                             //((brojZona + 1 - i) * cijenaJedinice * kaznaParkiranja)
                             long penalty = (main.Main.numZones + 1 - car.getZone().getZoneId()) * main.Main.unitPrice * main.Main.parkingPenalty;
                             car.setTotalPenalty(penalty);
@@ -46,6 +57,8 @@ public class GuardThread implements Runnable {
                                 if (zone.getZoneId() == zoneId) {
                                     zone.increaseZonePenalty(penalty);
                                     zone.increaseTowedCarsNumber();
+                                    resource.lifecycle.ResourceLifecylceManager.releaseDump(car);
+                                    break;
                                 }
                             }
                         }

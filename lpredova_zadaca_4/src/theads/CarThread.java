@@ -19,7 +19,7 @@ public class CarThread implements Runnable {
     public static Thread carThread;
     
     @Override
-    public void run() {
+    synchronized public void run() {
 
         //arrival interval
         //((vremenskaJedinica / intervalDolaska) * generiranaVrijednost1)

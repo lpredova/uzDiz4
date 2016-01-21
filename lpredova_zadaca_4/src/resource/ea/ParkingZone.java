@@ -44,7 +44,7 @@ public class ParkingZone {
     }
 
     public void increaseTowedCarsNumber() {
-        carsFled += 1;
+        carsTowed += 1;
     }
 
     public void increaseZoneEarnings(double paid) {
