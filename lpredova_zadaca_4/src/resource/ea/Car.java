@@ -204,7 +204,6 @@ public class Car implements EvictionInterface, Comparable<Car> {
         String info = "\nCar no:" + getId() + " entered parking lot\n"
                 + "Status:" + determineStatus() + "\n"
                 + "Last Zone:" + getZone().getZoneId() + "\n"
-                + "Last Paid:" + getLastPaid() + "\n"
                 + "Total Paid:" + getTotalPaid() + "\n"
                 + "Total Penalty:" + getTotalPenalty() + "\n"
                 + "Extensions:" + getTimesExtended() + "\n"

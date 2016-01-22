@@ -22,6 +22,10 @@ public class Evictor implements Runnable {
         new Thread(this).start();
     }
 
+    /**
+     * We don't use this part of code,
+     * It's just option to make a thread doing the eviction
+     */
     @Override
     public void run() {
         // For simplicity, we run forever
