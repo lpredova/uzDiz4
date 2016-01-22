@@ -26,50 +26,54 @@ public class InputThread implements Runnable {
     synchronized public void run() {
 
         while (isRunning) {
-            String choice = "";
-            Parking parking = resource.lifecycle.ResourceLifecylceManager.parking;
-            do {
-                Scanner in = new Scanner(System.in);
-                choice = in.nextLine();
-                switch (choice) {
-                    case "1":
-                        parking.setOpen(false);
-                        View.printText("\n\nParking closed!\n\n");
-                        break;
 
-                    case "2":
-                        parking.setOpen(true);
-                        View.printText("\n\nParking opened!\n");
-                        break;
+            try {
+                String choice = "";
+                Parking parking = resource.lifecycle.ResourceLifecylceManager.parking;
+                do {
+                    Scanner in = new Scanner(System.in);
+                    choice = in.nextLine();
+                    switch (choice) {
+                        case "1":
+                            parking.setOpen(false);
+                            View.printText("\n\nParking closed!\n\n");
+                            break;
 
-                    case "3":
-                        parking.printEarningsPayments();
-                        break;
+                        case "2":
+                            parking.setOpen(true);
+                            View.printText("\n\nParking opened!\n");
+                            break;
 
-                    case "4":
-                        parking.printEarningsTickets();
-                        break;
+                        case "3":
+                            parking.printEarningsPayments();
+                            break;
 
-                    case "5":
-                        parking.printOccupiedByZones();
-                        break;
+                        case "4":
+                            parking.printEarningsTickets();
+                            break;
 
-                    case "6":
-                        parking.printTowedByZones();
-                        break;
+                        case "5":
+                            parking.printOccupiedByZones();
+                            break;
 
-                    case "7":
-                        sortMostCommon();
-                        break;
+                        case "6":
+                            parking.printTowedByZones();
+                            break;
 
-                    case "8":
-                        parking.printZonesPercentage();
-                        break;
-                }
-            } while (!choice.equalsIgnoreCase("Q"));
+                        case "7":
+                            sortMostCommon();
+                            break;
 
-            killProgram(choice);
+                        case "8":
+                            parking.printZonesPercentage();
+                            break;
+                    }
+                } while (!choice.equalsIgnoreCase("Q"));
 
+                killProgram(choice);
+            } catch (Exception e) {
+                break;
+            }
         }
 
     }
@@ -101,6 +105,8 @@ public class InputThread implements Runnable {
         //Merge all cars into one list
         ArrayList<Car> allCars = new ArrayList<>();
         allCars.addAll(resource.lifecycle.ResourceLifecylceManager.dumpedCars);
+        allCars.addAll(resource.lifecycle.ResourceLifecylceManager.parkingCars);
+        allCars.addAll(resource.lifecycle.ResourceLifecylceManager.cars);
 
         //Sorting
         Collections.sort(allCars, new Comparator<Car>() {
@@ -114,7 +120,7 @@ public class InputThread implements Runnable {
 
         View.printText("\nTop 5 cars parked\n");
         for (int i = 0; i < 5; i++) {
-            allCars.get(i).printCarInfo();
+            allCars.get(i).printTowedCarInfo();
         }
 
     }

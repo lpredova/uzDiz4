@@ -5,11 +5,9 @@
  */
 package theads;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import mvc.Controller;
 import mvc.View;
 import resource.ea.Car;
 import resource.ea.ParkingZone;
@@ -32,14 +30,15 @@ public class GuardThread implements Runnable {
             long patrolingInterval;
 
             try {
+
                 //(vremenskaJedinica / intervalKontrole)
                 patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval);
                 doAction();
-                
-                Thread.sleep(patrolingInterval);
 
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
+                Thread.sleep(patrolingInterval);
+               
+            } catch (Exception ex) {
+                break;
             }
         }
 
@@ -60,6 +59,7 @@ public class GuardThread implements Runnable {
 
     private void doAction() {
 
+        View.printText("Guard goes for a walk...");
         List<Car> parkedCars = resource.lifecycle.ResourceLifecylceManager.parkingCars;
         List<ParkingZone> zones = resource.lifecycle.ResourceLifecylceManager.parking.getZones();
 
@@ -69,8 +69,8 @@ public class GuardThread implements Runnable {
         if (parkedCars.size() > 0) {
             Iterator<Car> cars = parkedCars.iterator();
 
-            try {
-                while (cars.hasNext()) {
+            while (cars.hasNext()) {
+                try {
                     Car car = cars.next();
                     long carDepartureTime = (long) car.getDepartureTime();
 
@@ -95,13 +95,13 @@ public class GuardThread implements Runnable {
                                 zone.increaseZonePenalty(penalty);
                                 zone.increaseTowedCarsNumber();
                                 resource.lifecycle.ResourceLifecylceManager.releaseDump(car);
-                                break;
+                                return;
                             }
                         }
                     }
+                } catch (Exception e) {
+                    return;
                 }
-            } catch (Exception e) {
-                //notin
             }
         }
     }

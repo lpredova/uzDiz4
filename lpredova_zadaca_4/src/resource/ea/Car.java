@@ -65,7 +65,7 @@ public class Car implements EvictionInterface, Comparable<Car> {
     public void increaseTimesParked() {
         this.timesParked += 1;
     }
-    
+
     public void increaseTimesExtender() {
         this.timesExtended += 1;
     }
@@ -189,8 +189,23 @@ public class Car implements EvictionInterface, Comparable<Car> {
                 + "Valid  :" + departure + "\n"
                 + "Status:" + determineStatus() + "\n"
                 + "Zone:" + getZone().getZoneId() + "\n"
-                + "Paid:" + getLastPaid() + "\n"
-                + "Total:" + getTotalPaid() + "\n"
+                + "Last Paid:" + getLastPaid() + "\n"
+                + "Total Paid:" + getTotalPaid() + "\n"
+                + "Total Penalty:" + getTotalPenalty() + "\n"
+                + "Extensions:" + getTimesExtended() + "\n"
+                + "Times Parked:" + getTimesParked() + "\n"
+                + "======================================";
+
+        View.printText(info);
+    }
+
+    public void printTowedCarInfo() {
+
+        String info = "\nCar no:" + getId() + " entered parking lot\n"
+                + "Status:" + determineStatus() + "\n"
+                + "Last Zone:" + getZone().getZoneId() + "\n"
+                + "Last Paid:" + getLastPaid() + "\n"
+                + "Total Paid:" + getTotalPaid() + "\n"
                 + "Total Penalty:" + getTotalPenalty() + "\n"
                 + "Extensions:" + getTimesExtended() + "\n"
                 + "Times Parked:" + getTimesParked() + "\n"

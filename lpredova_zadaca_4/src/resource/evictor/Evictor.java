@@ -100,13 +100,14 @@ public class Evictor implements Runnable {
                         Car carInZone = carsInZone.next();
 
                         if (carInZone.getId() == car.getId() && carInZone != null) {
+                            carInZone.setState(2);
                             c.beforeEviction();
                             cache.acquire(id);
                             parkedCars.remove();
                             carsInZone.remove();
                             resource.lifecycle.ResourceLifecylceManager.dumpedCars.add(carInZone);
                             View.printText("Car " + carInZone.getId() + " towed away!");
-                            break;
+                            return;
                         }
                     }
                 }

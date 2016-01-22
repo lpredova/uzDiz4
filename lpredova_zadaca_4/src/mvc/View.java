@@ -22,6 +22,6 @@ public class View {
     }
     
     public static void printText(String text){
-        System.out.println(text);
+        System.out.println("\n"+text);
     }
 }

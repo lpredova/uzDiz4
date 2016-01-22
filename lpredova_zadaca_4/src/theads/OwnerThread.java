@@ -5,10 +5,8 @@
  */
 package theads;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import mvc.Controller;
 import mvc.View;
 import resource.ea.Car;
 import resource.ea.Owner;
@@ -134,6 +132,7 @@ public class OwnerThread implements Runnable {
 
                 } else {
                     View.printText("Max time of extensions reched for car:  " + ownersCar.getId());
+                    //ownersCar.setGeneratedValue4(Helper.randInt());
                 }
             }
         }
