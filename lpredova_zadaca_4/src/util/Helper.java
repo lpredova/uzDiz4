@@ -6,6 +6,8 @@
 package util;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import main.Main;
 import static main.Main.c;
 import mvc.View;
@@ -146,7 +148,11 @@ public class Helper {
             View.printText("Simulation done (" + (DONE++) + "/3)");
 
             if (DONE == 3) {
-                main.Main.startController();
+                try {
+                    main.Main.startController();
+                } catch (IOException ex) {
+                    Logger.getLogger(Helper.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             return true;

@@ -68,8 +68,7 @@ public class Controller {
                 case "7":
                     //Merge all cars into one list
                     ArrayList<Car> allCars = new ArrayList<>();
-                    allCars.addAll(resource.lifecycle.ResourceLifecylceManager.cars);
-                    allCars.addAll(resource.lifecycle.ResourceLifecylceManager.parkingCars);
+                    allCars.addAll(resource.lifecycle.ResourceLifecylceManager.dumpedCars);
 
                     //Sorting
                     Collections.sort(allCars, new Comparator<Car>() {
@@ -79,12 +78,12 @@ public class Controller {
                         }
                     });
 
-                    allCars = (ArrayList<Car>) allCars.subList(0, 5);
-                    View.printText("Top 5 cars parked");
-                    for (Car allCar : allCars) {
-                        allCar.printCarInfo();
-                    }
+                    Collections.reverse(allCars);
 
+                    View.printText("\nTop 5 cars parked\n");
+                    for(int i = 0; i < 5; i++) {
+                        allCars.get(i).printCarInfo();
+                    }                
                     break;
 
                 case "8":
