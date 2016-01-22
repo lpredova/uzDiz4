@@ -3,12 +3,10 @@ package mvc;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import static java.util.Collections.list;
 import java.util.Comparator;
 import java.util.Scanner;
 import resource.ea.Car;
 import resource.ea.Parking;
-import theads.OwnerThread;
 
 /**
  * Class for receiving user inputs and returning response
@@ -30,17 +28,17 @@ public class Controller {
 
         String choice = "";
         Parking parking = resource.lifecycle.ResourceLifecylceManager.parking;
+
         do {
-            view.getMenu();
             Scanner in = new Scanner(System.in);
             choice = in.nextLine();
             switch (choice) {
                 case "1":
-                    parking.setOpen(true);
+                    parking.setOpen(false);
                     break;
 
                 case "2":
-                    parking.setOpen(false);
+                    parking.setOpen(true);
                     break;
 
                 case "3":
@@ -60,25 +58,7 @@ public class Controller {
                     break;
 
                 case "7":
-                    //Merge all cars into one list
-                    ArrayList<Car> allCars = new ArrayList<>();
-                    allCars.addAll(resource.lifecycle.ResourceLifecylceManager.cars);
-                    allCars.addAll(resource.lifecycle.ResourceLifecylceManager.parkingCars);
-
-                    //Sorting
-                    Collections.sort(allCars, new Comparator<Car>() {
-                        @Override
-                        public int compare(Car car1, Car car2) {
-                            return car1.getTimesParked() - car2.getTimesParked();
-                        }
-                    });
-                    
-                    allCars = (ArrayList<Car>) allCars.subList(0, 5);
-                    View.printText("Top 5 cars parked");
-                    for (Car allCar : allCars) {
-                         allCar.printCarInfo();
-                    }
-
+                    sortMostCommon();
                     break;
 
                 case "8":
@@ -86,10 +66,36 @@ public class Controller {
                     break;
             }
         } while (!choice.equalsIgnoreCase("Q"));
-        
-        
-        if(choice.equalsIgnoreCase("Q")){
+
+        killProgram(choice);
+    }
+
+    private void killProgram(String choice) {
+        if (choice.equalsIgnoreCase("Q")) {
             resource.lifecycle.ResourceLifecylceManager.killThreads();
+            System.exit(0);
         }
+    }
+
+    private void sortMostCommon() {
+        //Merge all cars into one list
+        ArrayList<Car> allCars = new ArrayList<>();
+        allCars.addAll(resource.lifecycle.ResourceLifecylceManager.dumpedCars);
+
+        //Sorting
+        Collections.sort(allCars, new Comparator<Car>() {
+            @Override
+            public int compare(Car car1, Car car2) {
+                return car1.getTimesParked() - car2.getTimesParked();
+            }
+        });
+
+        Collections.reverse(allCars);
+
+        View.printText("\nTop 5 cars parked\n");
+        for (int i = 0; i < 5; i++) {
+            allCars.get(i).printCarInfo();
+        }
+
     }
 }

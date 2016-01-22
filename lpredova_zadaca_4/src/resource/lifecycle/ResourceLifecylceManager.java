@@ -6,9 +6,8 @@
 package resource.lifecycle;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
-import mvc.View;
 import resource.cache.CacheImplementation;
 import resource.ea.Car;
 import resource.ea.CarEagerAcquisition;
@@ -20,27 +19,30 @@ import resource.evictor.Evictor;
 import theads.CarThread;
 
 import theads.GuardThread;
+import theads.InputThread;
 import theads.OwnerThread;
+import util.Helper;
 
 /**
  *
  * @author lovro
  */
-public class ResourceLifecylceManager {
+public final class ResourceLifecylceManager {
 
-    public static ArrayList<Car> cars;
+    public static List cars = Collections.synchronizedList(new ArrayList());
+    public static List owners = Collections.synchronizedList(new ArrayList());
     public static Parking parking;
-    public static ArrayList<Owner> owners;
     private static Evictor evictor = new Evictor();
 
     //cars on parking
-    public static ArrayList<Car> parkingCars;
-    public static ArrayList<Car> dumpedCars;
-    public static ArrayList<Owner> parkingOwners;
+    public static List parkingCars = Collections.synchronizedList(new ArrayList());
+    public static List dumpedCars = Collections.synchronizedList(new ArrayList());
+    public static List parkingOwners = Collections.synchronizedList(new ArrayList());
 
     public static GuardThread gt = new GuardThread();
     public static OwnerThread ot = new OwnerThread();
     public static CarThread ct = new CarThread();
+    public static InputThread it = new InputThread();
 
     //cache
     public static CacheImplementation cache = new CacheImplementation();
@@ -49,26 +51,29 @@ public class ResourceLifecylceManager {
 
         //create cars
         CarEagerAcquisition newCar = CarEagerAcquisition.getInstance();
-        cars = (ArrayList<Car>) newCar.createCars();
+        cars = newCar.createCars();
 
         //create parkings and zones
         ParkingEagerAcquisition newParking = ParkingEagerAcquisition.getInstance();
         parking = newParking.createParking();
 
+        runThreads();
+    }
+    
+    public static void runThreads(){
         //setting car enter thread
         ct.start();
-        View.printText("Parking lot is open\n");
 
         //setting owner thread
-        ot.run();
-        View.printText("Owners are starting to buzz around!\n");
+        ot.start();
 
         //setting worker thread
-        gt.run();
-        View.printText("Owners are starting to buzz around!\n");
-
-        //start evictor
+        gt.start();
+        it.start();
+        
         evictor.run();
+        
+        
     }
 
     /**
@@ -76,10 +81,11 @@ public class ResourceLifecylceManager {
      *
      * @param car
      */
-    public static void acquire(Car car) {
+    synchronized public static void acquire(Car car) {
 
         //select zone
         //(brojZona * generiranaVrijednost2) tako da sve zone imaju istu vjerojatnost odabira
+        car.setGeneratedValue2(Helper.randInt());
         int zone = (int) Math.ceil(main.Main.numZones * car.getGeneratedValue2());
 
         List<ParkingZone> zones = parking.getZones();
@@ -88,14 +94,10 @@ public class ResourceLifecylceManager {
         //zone is full?
         if (wantedZone.getZoneCapacity() == wantedZone.getCars().size()) {
             wantedZone.increaseFledCarsNumber();
-            car.setState(0);
-            car.printCarInfo();
         } //everything is ok and car is going to be parked
         else {
 
-            //Fill car data
-            Date currentDate = new Date();
-            long time = currentDate.getTime();
+            long time = System.currentTimeMillis();
             //(i * maksParkiranje * vremenskaJedinica), i je broj zone
             long timeParked = zone * main.Main.timeSlot * main.Main.maxParking;
             //((brojZona + 1 - i) * cijenaJedinice), i je broj zone
@@ -103,8 +105,10 @@ public class ResourceLifecylceManager {
             car.increaseTotalPaid(paid);
             car.setLastPaid(paid);
             car.setZone(wantedZone);
+            
             car.setArrivalTime(time);
             car.setDepartureTime(time + timeParked);
+            
             car.setState(1);
             car.increaseTimesParked();
 
@@ -116,11 +120,17 @@ public class ResourceLifecylceManager {
             cache.release(car);
 
             //saving owner
-            car.getOwner().setCar(car);
-            parkingOwners.add(car.getOwner());
-
+            car.setOwner(zone);
+            
+            for (Object owner: owners) {
+                Owner o = (Owner) owner;
+                if(o.getCarId()==car.getId()){
+                o.setGeneratedValue3(car.getGeneratedValue3());
+                parkingOwners.add(o);
+                }
+            }
+            
             //removing car from outside
-            zones.remove(zone - 1);
             cars.remove(car);
 
             car.printCarInfo();
@@ -132,14 +142,26 @@ public class ResourceLifecylceManager {
      *
      * @param car
      */
-    public static void release(Car car) {
+    synchronized public static void release(Car car) {
         //releasing resource with evictor
         evictor.evict(car);
     }
     
+    /**
+     * Method for removing cars from parking lot
+     *
+     * @param car
+     */
+    synchronized public static void releaseDump(Car car) {
+        //releasing resource with evictor
+        evictor.evictDump(car);
+    }
+    
     public static void killThreads(){
+        System.out.println("Killing threads");
         gt.kill();
         ct.kill();
         ot.kill();
+        it.kill();
     }
 }

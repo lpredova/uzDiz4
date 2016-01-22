@@ -26,8 +26,7 @@ public class GeneralValidator extends AbstractValidator{
     public boolean validate(String[] args) {
         
         boolean result = true;
-       
-        System.out.println("Duljina: " + args.length);
+
         if(args.length!=10){
           System.out.println("Wrong number of input params!");
           result = false;

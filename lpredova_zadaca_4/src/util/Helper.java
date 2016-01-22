@@ -5,8 +5,11 @@
  */
 package util;
 
-import java.util.Random;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import main.Main;
+import mvc.View;
 
 /**
  *
@@ -15,6 +18,7 @@ import main.Main;
 public class Helper {
 
     public static String errorInput = "Whoops! There has been error with params";
+    protected static int DONE = 1;
 
     /**
      * Method that checks if
@@ -120,7 +124,7 @@ public class Helper {
         Main.numZones = Integer.parseInt(args[1]);
         Main.zoneCapacity = Integer.parseInt(args[2]);
         Main.maxParking = Integer.parseInt(args[3]);
-        Main.timeSlot = Integer.parseInt(args[4]);
+        Main.timeSlot = Integer.parseInt(args[4]) * 1000;
         Main.arrivalInterval = Integer.parseInt(args[5]);
         Main.departureInterval = Integer.parseInt(args[6]);
         Main.unitPrice = Integer.parseInt(args[7]);
@@ -130,10 +134,25 @@ public class Helper {
 
     /**
      * Method for getting random number in range (0,000-1,000)
-
+     *
      * @return
      */
     public static double randInt() {
         return Math.random();
+    }
+
+    public static boolean checkIfDone() {
+        if (resource.lifecycle.ResourceLifecylceManager.cars.isEmpty() && resource.lifecycle.ResourceLifecylceManager.parkingCars.isEmpty()) {
+            View.printText("========================");
+            View.printText("Simulation done (" + (DONE++) + "/3)");
+
+            if (DONE == 3) {
+                View.printText("========================");
+                Helper.printMenu();
+            }
+
+            return true;
+        }
+        return false;
     }
 }

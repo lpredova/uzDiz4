@@ -5,12 +5,11 @@
  */
 package resource.evictor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import mvc.View;
 import resource.ea.Car;
 import resource.ea.ParkingZone;
 import static resource.lifecycle.ResourceLifecylceManager.cache;
-import static resource.lifecycle.ResourceLifecylceManager.cars;
 import static resource.lifecycle.ResourceLifecylceManager.parkingCars;
 
 /**
@@ -23,6 +22,10 @@ public class Evictor implements Runnable {
         new Thread(this).start();
     }
 
+    /**
+     * We don't use this part of code,
+     * It's just option to make a thread doing the eviction
+     */
     @Override
     public void run() {
         // For simplicity, we run forever
@@ -37,30 +40,82 @@ public class Evictor implements Runnable {
 
     }
 
-    public void evict(Car car) {
+    synchronized public void evict(Car car) {
         int id = car.getId();
-        for (Car car1 : parkingCars) {
-            if (id == car1.getId() && car1.isEvictable()) {
-                
-                car1.beforeEviction();
-                cache.acquire(id);
-                cars.add(car1);
-                parkingCars.remove(car1);
-                
-                //evict car from zone he's in
-                List<ParkingZone> zones = resource.lifecycle.ResourceLifecylceManager.parking.getZones();
-                for (ParkingZone zone : zones) {
-                    
+
+        Iterator<Car> parkedCars = parkingCars.iterator();
+
+        while (parkedCars.hasNext()) {
+            Car c = parkedCars.next();
+
+            if (id == c.getId() && c.isEvictable()) {
+
+                //zones iterator
+                Iterator<ParkingZone> parkingZone = resource.lifecycle.ResourceLifecylceManager.parking.getZones().iterator();
+
+                while (parkingZone.hasNext()) {
+                    ParkingZone pz = parkingZone.next();
+
                     //check cars in the zone
-                    ArrayList<Car> cars = zone.getCars();
-                    for (Car car2 : cars) {
-                        if(car2.getId()==car1.getId()){
-                            zone.removeCar(car2);
+                    //cars in zone iterator
+                    Iterator<Car> carsInZone = pz.getCars().iterator();
+
+                    while (carsInZone.hasNext()) {
+
+                        Car carInZone = carsInZone.next();
+
+                        if (carInZone.getId() == car.getId() && carInZone != null) {
+                            c.beforeEviction();
+                            cache.acquire(id);
+                            resource.lifecycle.ResourceLifecylceManager.cars.add(c);
+                            parkedCars.remove();
+                            carsInZone.remove();
+                            View.printText("Car " + car.getId() + " has left parking.");
+                            break;
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    synchronized public void evictDump(Car car) {
+
+        int id = car.getId();
+        Iterator<Car> parkedCars = parkingCars.iterator();
+        while (parkedCars.hasNext()) {
+            Car c = parkedCars.next();
+
+            if (id == c.getId() && c.isEvictable()) {
+                //zones iterator
+                Iterator<ParkingZone> parkingZone = resource.lifecycle.ResourceLifecylceManager.parking.getZones().iterator();
+
+                while (parkingZone.hasNext()) {
+                    ParkingZone pz = parkingZone.next();
+                    //check cars in the zone
+                    //cars in zone iterator
+                    Iterator<Car> carsInZone = pz.getCars().iterator();
+
+                    while (carsInZone.hasNext()) {
+
+                        Car carInZone = carsInZone.next();
+
+                        if (carInZone.getId() == car.getId() && carInZone != null) {
+                            carInZone.setState(2);
+                            c.beforeEviction();
+                            cache.acquire(id);
+                            parkedCars.remove();
+                            carsInZone.remove();
+                            resource.lifecycle.ResourceLifecylceManager.dumpedCars.add(carInZone);
+                            View.printText("Car " + carInZone.getId() + " towed away!");
+                            return;
                         }
                     }
                 }
             }
         }
     }
-
 }

@@ -5,6 +5,7 @@
  */
 package resource.ea;
 
+import java.util.Calendar;
 import mvc.View;
 import resource.evictor.EvictionInterface;
 import util.Helper;
@@ -15,11 +16,11 @@ import util.Helper;
  */
 public class Car implements EvictionInterface, Comparable<Car> {
 
-    protected static int CAR_ID = 0;
+    protected static int CAR_ID = 1;
 
     int carId;
-    double arrivalTime = 0;
-    double departureTime = 0;
+    long arrivalTime;
+    long departureTime;
     int state = 0;
     ParkingZone zone;
     int timesExtended = 0;
@@ -28,7 +29,7 @@ public class Car implements EvictionInterface, Comparable<Car> {
     double totalPenalty = 0;
     double totalPaid = 0;
     double lastPaid = 0;
-    Owner owner;
+    int owner;
 
     double generatedValue1;
     double generatedValue2;
@@ -41,6 +42,8 @@ public class Car implements EvictionInterface, Comparable<Car> {
         generatedValue2 = Helper.randInt();
         generatedValue3 = Helper.randInt();
         generatedValue4 = Helper.randInt();
+        this.arrivalTime = 0;
+        this.departureTime = 0;
     }
 
     public int getTimesExtended() {
@@ -63,6 +66,10 @@ public class Car implements EvictionInterface, Comparable<Car> {
         this.timesParked += 1;
     }
 
+    public void increaseTimesExtender() {
+        this.timesExtended += 1;
+    }
+
     public double getTotalPaid() {
         return totalPaid;
     }
@@ -83,11 +90,11 @@ public class Car implements EvictionInterface, Comparable<Car> {
         this.lastPaid = lastPaid;
     }
 
-    public Owner getOwner() {
+    public int getOwner() {
         return owner;
     }
 
-    public void setOwner(Owner owner) {
+    public void setOwner(int owner) {
         this.owner = owner;
     }
 
@@ -99,7 +106,7 @@ public class Car implements EvictionInterface, Comparable<Car> {
         return arrivalTime;
     }
 
-    public void setArrivalTime(double arrivalTime) {
+    public void setArrivalTime(long arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
@@ -107,7 +114,7 @@ public class Car implements EvictionInterface, Comparable<Car> {
         return departureTime;
     }
 
-    public void setDepartureTime(double departureTime) {
+    public void setDepartureTime(long departureTime) {
         this.departureTime = departureTime;
     }
 
@@ -169,13 +176,35 @@ public class Car implements EvictionInterface, Comparable<Car> {
 
     public void printCarInfo() {
 
+        Calendar date = Calendar.getInstance();
+
+        date.setTimeInMillis((long) (getArrivalTime()));
+        String arrival = "  " + date.getTime();
+
+        date.setTimeInMillis((long) (getDepartureTime()));
+        String departure = "  " + date.getTime();
+
         String info = "\nCar no:" + getId() + " entered parking lot\n"
-                + "Time:" + getArrivalTime() + "\n"
-                + "Time:" + getArrivalTime() + "\n"
+                + "Arrival:" + arrival + "\n"
+                + "Valid  :" + departure + "\n"
                 + "Status:" + determineStatus() + "\n"
                 + "Zone:" + getZone().getZoneId() + "\n"
-                + "Paid:" + getLastPaid() + "\n"
-                + "Total:" + getTotalPaid() + "\n"
+                + "Last Paid:" + getLastPaid() + "\n"
+                + "Total Paid:" + getTotalPaid() + "\n"
+                + "Total Penalty:" + getTotalPenalty() + "\n"
+                + "Extensions:" + getTimesExtended() + "\n"
+                + "Times Parked:" + getTimesParked() + "\n"
+                + "======================================";
+
+        View.printText(info);
+    }
+
+    public void printTowedCarInfo() {
+
+        String info = "\nCar no:" + getId() + " entered parking lot\n"
+                + "Status:" + determineStatus() + "\n"
+                + "Last Zone:" + getZone().getZoneId() + "\n"
+                + "Total Paid:" + getTotalPaid() + "\n"
                 + "Total Penalty:" + getTotalPenalty() + "\n"
                 + "Extensions:" + getTimesExtended() + "\n"
                 + "Times Parked:" + getTimesParked() + "\n"
@@ -210,8 +239,6 @@ public class Car implements EvictionInterface, Comparable<Car> {
         setGeneratedValue3(0);
         setGeneratedValue4(0);
         setLastPaid(0);
-        setZone(null);
-
     }
 
     @Override
