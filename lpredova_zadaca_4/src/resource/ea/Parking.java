@@ -36,10 +36,10 @@ public class Parking {
 
     public void printEarningsPayments() {
 
-        String text = "\n";
+        String text = "\n\nTotal earning by the zone\n\n";
         for (Object zone1 : zones) {
             ParkingZone zone = (ParkingZone) zone1;
-            text += "Zone " + zone.getZoneId() + " earnings: " + zone.getZoneEarning() + "\n";
+            text += "Zone " + zone.getZoneId() + " earnings: " + zone.getZoneEarning() + "$ \n";
         }
 
         View.printText(text);
@@ -47,10 +47,10 @@ public class Parking {
 
     public void printEarningsTickets() {
 
-        String text = "\n";
+        String text = "\n\n Parking tickets by the zone  \n\n";
         for (Object zone1 : zones) {
             ParkingZone zone = (ParkingZone) zone1;
-            text += "Zone " + zone.getZoneId() + " tickets: " + zone.getZonePenalty() + "\n";
+            text += "Zone " + zone.getZoneId() + " tickets: " + zone.getZonePenalty() + "$ \n";
         }
 
         View.printText(text);
@@ -58,7 +58,7 @@ public class Parking {
 
     public void printOccupiedByZones() {
 
-        String text = "\n";
+        String text = "\n\n Cars fled from zone \n\n";
         for (Object zone1 : zones) {
             ParkingZone zone = (ParkingZone) zone1;
             text += "Zone " + zone.getZoneId() + " occupied: " + zone.getCarsFled() + "\n";
@@ -70,7 +70,7 @@ public class Parking {
 
     public void printTowedByZones() {
 
-        String text = "\n";
+        String text = "\n\n Cars towed from the parking \n\n";
         for (Object zone1 : zones) {
             ParkingZone zone = (ParkingZone) zone1;
             text += "Zone " + zone.getZoneId() + " occupied: " + zone.getCarsTowed() + "\n";
@@ -82,7 +82,7 @@ public class Parking {
 
     public void printZonesPercentage() {
 
-        String text = "\n";
+        String text = "\n\n Zones occupancy percentage \n\n";
         for (Object zone1 : zones) {
             ParkingZone zone = (ParkingZone) zone1;
             text += "Zone " + zone.getZoneId() + " occupied: " + Math.round(zone.getZoneFreePercentage() * 100) + "%" + "\n";

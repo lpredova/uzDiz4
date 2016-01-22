@@ -5,9 +5,13 @@
  */
 package resource.lifecycle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import mvc.Controller;
 import mvc.View;
 import resource.cache.CacheImplementation;
 import resource.ea.Car;
@@ -20,6 +24,7 @@ import resource.evictor.Evictor;
 import theads.CarThread;
 
 import theads.GuardThread;
+import theads.InputThread;
 import theads.OwnerThread;
 import util.Helper;
 
@@ -42,6 +47,7 @@ public final class ResourceLifecylceManager {
     public static GuardThread gt = new GuardThread();
     public static OwnerThread ot = new OwnerThread();
     public static CarThread ct = new CarThread();
+    public static InputThread it = new InputThread();
 
     //cache
     public static CacheImplementation cache = new CacheImplementation();
@@ -68,7 +74,11 @@ public final class ResourceLifecylceManager {
 
         //setting worker thread
         gt.start();
+        it.start();
+        
         evictor.run();
+        
+        
     }
 
     /**
@@ -157,5 +167,6 @@ public final class ResourceLifecylceManager {
         gt.kill();
         ct.kill();
         ot.kill();
+        it.kill();
     }
 }

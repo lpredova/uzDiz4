@@ -5,9 +5,11 @@
  */
 package theads;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import mvc.Controller;
 import mvc.View;
 import resource.ea.Car;
 import resource.ea.ParkingZone;
@@ -26,12 +28,14 @@ public class GuardThread implements Runnable {
         View.printText("Guard is starting shift..");
 
         while (isRunning && !Helper.checkIfDone()) {
+
             long patrolingInterval;
 
             try {
                 //(vremenskaJedinica / intervalKontrole)
                 patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval);
                 doAction();
+                
                 Thread.sleep(patrolingInterval);
 
             } catch (InterruptedException ex) {

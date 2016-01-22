@@ -49,11 +49,12 @@ public class CarThread implements Runnable {
                         }
 
                         View.printText("Cars outside: " + resource.lifecycle.ResourceLifecylceManager.cars.size());
+
                         Thread.sleep((long) arrivalInterval);
 
                     }
                 } else {
-                    View.printText("Parking is closed!");
+                    //nothing but parking is closed in this case
                 }
 
             } catch (InterruptedException ex) {

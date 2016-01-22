@@ -43,18 +43,17 @@ public class Main {
         if (Main.validateInput(args)) {
             
             Helper.splitArgs(args);
-            Main.v = new View();
-            Main.m = new Model();
+            View view = new View();
+            Model model = new Model();
+            
+            Main.v = view;
+            Main.m = model;
+            
+            c = new Controller(Main.v, Main.m);
   
         } else {
             System.out.println(Helper.errorInput);
         }
-    }
-    
-    public static void startController() throws IOException{
-             c = new Controller(Main.v, Main.m);
-             c.processOption();
-
     }
     
 

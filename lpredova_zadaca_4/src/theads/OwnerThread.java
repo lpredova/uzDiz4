@@ -5,8 +5,10 @@
  */
 package theads;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import mvc.Controller;
 import mvc.View;
 import resource.ea.Car;
 import resource.ea.Owner;
@@ -43,7 +45,7 @@ public class OwnerThread implements Runnable {
                             //((vremenskaJedinica / intervalOdlaska) * generiranaVrijednost3)
                             departureInterval = ((main.Main.timeSlot / main.Main.departureInterval) * o.getGeneratedValue3());
                             doAction(o);
-                            Thread.sleep((long)departureInterval);
+                            Thread.sleep((long) departureInterval);
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
@@ -124,14 +126,14 @@ public class OwnerThread implements Runnable {
                             car.setGeneratedValue4(Helper.randInt());
 
                             zone.increaseZoneEarnings(paid);
-                            View.printText("Owner " + owner.getOwnerId() + " has extended parking for car " + car.getId() );
+                            View.printText("Owner " + owner.getOwnerId() + " has extended parking for car " + car.getId());
 
                             break;
                         }
                     }
 
                 } else {
-                   View.printText("Max time of extensions reched for car:  " + ownersCar.getId());
+                    View.printText("Max time of extensions reched for car:  " + ownersCar.getId());
                 }
             }
         }
