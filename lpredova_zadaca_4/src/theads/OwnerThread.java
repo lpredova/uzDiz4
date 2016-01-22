@@ -6,11 +6,14 @@
 package theads;
 
 import java.util.ArrayList;
+import java.util.List;
 import mvc.View;
 import resource.ea.Car;
 import resource.ea.Owner;
 import resource.ea.ParkingZone;
 import resource.lifecycle.ResourceLifecylceManager;
+import static resource.lifecycle.ResourceLifecylceManager.owners;
+import static resource.lifecycle.ResourceLifecylceManager.parkingOwners;
 import util.Helper;
 
 /**
@@ -29,20 +32,20 @@ public class OwnerThread implements Runnable {
             try {
                 //departure interval
                 int departureInterval;
-                ArrayList<Owner> owners = ResourceLifecylceManager.parkingOwners;
+                List owners = ResourceLifecylceManager.parkingOwners;
 
                 if (owners.size() > 0) {
-                    for (Owner owner : owners) {
-                       
+                    for (Object owner : owners) {
+                        Owner o = (Owner) owner;
+
                         //((vremenskaJedinica / intervalOdlaska) * generiranaVrijednost3)
-                        departureInterval = (int) ((main.Main.timeSlot / main.Main.departureInterval) * owner.getCar().getGeneratedValue3());
-                        doAction(owner);
+                        departureInterval = (int) ((main.Main.timeSlot / main.Main.departureInterval) * o.getGeneratedValue3());
+                        doAction(o);
                         Thread.sleep(departureInterval);
                     }
 
                 }
 
-                //depart
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
@@ -62,53 +65,62 @@ public class OwnerThread implements Runnable {
     }
 
     private void doAction(Owner owner) {
-        double chance = owner.getCar().getGeneratedValue4();
 
-        if (chance <= 0.25f) {
-            //do nothing
-        } else if (chance > 0.25f && chance <= 0.50f) {
-            //exit
-            resource.lifecycle.ResourceLifecylceManager.release(owner.getCar());
+        Car ownersCar = null;
 
-        } else {
-            //extend parking
+        for (Object car : resource.lifecycle.ResourceLifecylceManager.parkingCars) {
+            Car c = (Car) car;
+            Owner o = (Owner) owner;
+            if (owner.getCarId() == c.getId()) {
+                ownersCar = c;
+            }
+        }
 
-            //check if parking is max times extended
-            if (owner.getCar().getTimesExtended() <= owner.getCar().getZone().getMaxZoneExtensions()) {
-                //ok -> find and extend
+        if (ownersCar != null) {
+            double chance = ownersCar.getGeneratedValue4();
 
-                Car ownerCar = owner.getCar();
-                ArrayList<Car> cars = resource.lifecycle.ResourceLifecylceManager.parkingCars;
-                for (Car car : cars) {
-                    if (ownerCar.getId() == car.getId()) {
-                        //ok now we have the same car, now extend parking
-
-                        //(i * maksParkiranje * vremenskaJedinica), i je broj zone
-                        ParkingZone zone = owner.getCar().getZone();
-
-                        long arrivalTime = System.currentTimeMillis() / 1000L;
-
-                        car.setArrivalTime(arrivalTime);
-                        car.setDepartureTime(arrivalTime + (zone.getZoneId() * main.Main.timeSlot * main.Main.maxParking));
-
-                        //((brojZona + 1 - i) * cijenaJedinice), i je broj zone
-                        double paid = ((main.Main.numZones + 1 - zone.getZoneId()) * main.Main.unitPrice);
-                        car.increaseTotalPaid(paid);
-                        car.setLastPaid(paid);
-                        car.setZone(zone);
-                        car.setState(2);
-                        car.increaseTimesExtender();
-                        car.setGeneratedValue4(Helper.randInt());
-
-                        zone.increaseZoneEarnings(paid);
-                        break;
-                    }
-                }
+            if (chance <= 0.25f) {
+                //do nothing
+            } else if (chance > 0.25f && chance <= 0.50f) {
+                //exit
+                resource.lifecycle.ResourceLifecylceManager.release(ownersCar);
 
             } else {
-                View.printText("Max number of extensions reached!");
-            }
+            //extend parking
 
+                //check if parking is max times extended
+                if (ownersCar.getTimesExtended() <= ownersCar.getZone().getMaxZoneExtensions()) {
+                //ok -> find and extend
+
+                    List<Car> cars = resource.lifecycle.ResourceLifecylceManager.parkingCars;
+                    for (Car car : cars) {
+                        if (ownersCar.getId() == car.getId()) {
+                        //ok now we have the same car, now extend parking
+
+                            //(i * maksParkiranje * vremenskaJedinica), i je broj zone
+                            ParkingZone zone = ownersCar.getZone();
+
+                            long arrivalTime = System.currentTimeMillis() / 1000L;
+
+                            car.setArrivalTime(arrivalTime);
+                            car.setDepartureTime(arrivalTime + (zone.getZoneId() * main.Main.timeSlot * main.Main.maxParking));
+
+                            //((brojZona + 1 - i) * cijenaJedinice), i je broj zone
+                            double paid = ((main.Main.numZones + 1 - zone.getZoneId()) * main.Main.unitPrice);
+                            car.increaseTotalPaid(paid);
+                            car.setLastPaid(paid);
+                            car.setZone(zone);
+                            car.setState(2);
+                            car.increaseTimesExtender();
+                            car.setGeneratedValue4(Helper.randInt());
+
+                            zone.increaseZoneEarnings(paid);
+                            break;
+                        }
+                    }
+
+                } else {}
+            }
         }
     }
 }

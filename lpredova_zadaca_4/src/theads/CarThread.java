@@ -6,6 +6,7 @@
 package theads;
 
 import java.util.ArrayList;
+import java.util.List;
 import mvc.View;
 import resource.ea.Car;
 
@@ -28,7 +29,7 @@ public class CarThread implements Runnable {
 
             try {
                 if (resource.lifecycle.ResourceLifecylceManager.parking.isOpen()) {
-                    ArrayList<Car> cars = resource.lifecycle.ResourceLifecylceManager.cars;
+                    List<Car> cars = resource.lifecycle.ResourceLifecylceManager.cars;
                     if (cars.size() > 0) {
 
                         Car car = cars.get(0);

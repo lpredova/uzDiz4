@@ -29,7 +29,7 @@ public class Car implements EvictionInterface, Comparable<Car> {
     double totalPenalty = 0;
     double totalPaid = 0;
     double lastPaid = 0;
-    Owner owner;
+    int owner;
 
     double generatedValue1;
     double generatedValue2;
@@ -90,11 +90,11 @@ public class Car implements EvictionInterface, Comparable<Car> {
         this.lastPaid = lastPaid;
     }
 
-    public Owner getOwner() {
+    public int getOwner() {
         return owner;
     }
 
-    public void setOwner(Owner owner) {
+    public void setOwner(int owner) {
         this.owner = owner;
     }
 

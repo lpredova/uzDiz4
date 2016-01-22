@@ -26,8 +26,10 @@ public class GuardThread implements Runnable {
 
         while (isRunning) {
             int patrolingInterval = 1000;
-            try {
-                ArrayList<Car> parkedCars = resource.lifecycle.ResourceLifecylceManager.parkingCars;
+            System.out.println("Working..");
+
+            try {    
+                ArrayList<Car> parkedCars = (ArrayList<Car>) resource.lifecycle.ResourceLifecylceManager.parkingCars;
                 List<ParkingZone> zones = resource.lifecycle.ResourceLifecylceManager.parking.getZones();
                 //check if parking time is over
                 long time = System.currentTimeMillis() / 1000L;
@@ -35,7 +37,6 @@ public class GuardThread implements Runnable {
                 if (parkedCars.size() > 0) {
 
                     for (Car car : parkedCars) {
-                        System.out.println("Working..");
                         long carDepartureTime = (long) car.getDepartureTime();
 
                         Calendar date = Calendar.getInstance();

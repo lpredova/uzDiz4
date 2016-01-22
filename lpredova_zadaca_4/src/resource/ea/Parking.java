@@ -16,7 +16,7 @@ import mvc.View;
 public class Parking {
 
     boolean open = true;
-    ArrayList<ParkingZone> zones;
+    List zones;
 
     public List<ParkingZone> getZones() {
         return zones;
@@ -33,69 +33,74 @@ public class Parking {
     public void setOpen(boolean open) {
         this.open = open;
     }
-    
-    public void printEarningsPayments(){
-        
+
+    public void printEarningsPayments() {
+
         String text = "";
-        for (ParkingZone zone : zones) {
+        for (Object zone1 : zones) {
+            ParkingZone zone = (ParkingZone) zone1;
             text += "Zone " + zone.getZoneId() + " earnings:" + zone.getZoneEarning() + "\n";
         }
-    
-        View.printText(text);
-    }
-    
-    
-    public void printEarningsTickets(){
-        
-        String text = "";
-        for (ParkingZone zone : zones) {
-            text += "Zone " + zone.getZoneId() + " tickets:" + zone.getZonePenalty()+ "\n";
-        }
-    
-        View.printText(text);
-    }
-    
-    public void printOccupiedByZones(){
-        
-        String text = "";
-        for (ParkingZone zone : zones) {
-            text += "Zone " + zone.getZoneId() + " occupied:" + zone.getCarsFled()+ "\n";
-        }
-    
-        View.printText(text);
-    
-    }
-    
-    public void printTowedByZones(){
-        
-        String text = "";
-        for (ParkingZone zone : zones) {
-            text += "Zone " + zone.getZoneId() + " occupied:" + zone.getCarsTowed()+ "\n";
-        }
-    
-        View.printText(text);
-    
-    }
-    
-    public void printZonesPercentage(){
-        
-        String text = "";
-        for (ParkingZone zone : zones) {
-            text += "Zone " + zone.getZoneId() + " occupied:" + Math.round(zone.getZoneFreePercentage()*100) +"%"+ "\n";
-        }
-    
-        View.printText(text);
-    
-    }
-    
-    public ParkingZone getZoneById(int zoneId){
 
-        for (ParkingZone zone : zones) {
-            if(zone.getZoneId()==zoneId){
+        View.printText(text);
+    }
+
+    public void printEarningsTickets() {
+
+        String text = "";
+        for (Object zone1 : zones) {
+            ParkingZone zone = (ParkingZone) zone1;
+            text += "Zone " + zone.getZoneId() + " tickets:" + zone.getZonePenalty() + "\n";
+        }
+
+        View.printText(text);
+    }
+
+    public void printOccupiedByZones() {
+
+        String text = "";
+        for (Object zone1 : zones) {
+            ParkingZone zone = (ParkingZone) zone1;
+            text += "Zone " + zone.getZoneId() + " occupied:" + zone.getCarsFled() + "\n";
+        }
+
+        View.printText(text);
+
+    }
+
+    public void printTowedByZones() {
+
+        String text = "";
+        for (Object zone1 : zones) {
+            ParkingZone zone = (ParkingZone) zone1;
+            text += "Zone " + zone.getZoneId() + " occupied:" + zone.getCarsTowed() + "\n";
+        }
+
+        View.printText(text);
+
+    }
+
+    public void printZonesPercentage() {
+
+        String text = "";
+        for (Object zone1 : zones) {
+            ParkingZone zone = (ParkingZone) zone1;
+            text += "Zone " + zone.getZoneId() + " occupied:" + Math.round(zone.getZoneFreePercentage() * 100) + "%" + "\n";
+        }
+
+        View.printText(text);
+
+    }
+
+    public ParkingZone getZoneById(int zoneId) {
+
+        for (Object zone1 : zones) {
+            ParkingZone zone = (ParkingZone) zone1;
+            if (zone.getZoneId() == zoneId) {
                 return zone;
             }
         }
         return null;
     }
-    
+
 }

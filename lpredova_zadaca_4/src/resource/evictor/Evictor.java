@@ -41,9 +41,11 @@ public class Evictor implements Runnable {
 
     synchronized public void evict(Car car) {
         int id = car.getId();
-        ArrayList<Car> parkingCarsCopy = parkingCars;
+        List parkingCarsCopy = parkingCars;
        
-            for (Car car1 : parkingCarsCopy) {
+            for (Object car0 : parkingCarsCopy) {
+                Car car1 = (Car) car0;
+                
                 if (id == car1.getId() && car1.isEvictable()) {
 
                     car1.beforeEviction();

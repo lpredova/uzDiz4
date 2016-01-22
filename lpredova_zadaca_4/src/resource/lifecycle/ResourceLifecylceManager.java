@@ -6,6 +6,7 @@
 package resource.lifecycle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import mvc.View;
 import resource.cache.CacheImplementation;
@@ -27,14 +28,15 @@ import theads.OwnerThread;
  */
 public class ResourceLifecylceManager {
 
-    public static ArrayList<Car> cars;
+    public static List cars = Collections.synchronizedList(new ArrayList());
+    public static List owners = Collections.synchronizedList(new ArrayList());
     public static Parking parking;
     private static Evictor evictor = new Evictor();
 
     //cars on parking
-    public static ArrayList<Car> parkingCars = new ArrayList<>();
-    public static ArrayList<Car> dumpedCars = new ArrayList<>();
-    public static ArrayList<Owner> parkingOwners = new ArrayList<>();
+    public static List parkingCars = Collections.synchronizedList(new ArrayList());
+    public static List dumpedCars = Collections.synchronizedList(new ArrayList());
+    public static List parkingOwners = Collections.synchronizedList(new ArrayList());
 
     public static GuardThread gt = new GuardThread();
     public static OwnerThread ot = new OwnerThread();
@@ -47,7 +49,7 @@ public class ResourceLifecylceManager {
 
         //create cars
         CarEagerAcquisition newCar = CarEagerAcquisition.getInstance();
-        cars = (ArrayList<Car>) newCar.createCars();
+        cars = newCar.createCars();
 
         //create parkings and zones
         ParkingEagerAcquisition newParking = ParkingEagerAcquisition.getInstance();
@@ -55,15 +57,14 @@ public class ResourceLifecylceManager {
 
         //setting car enter thread
         ct.start();
-        View.printText("Parking lot is open\n");
 
         //setting owner thread
-        //ot.run();
+        ot.run();
         View.printText("Owners started!\n");
 
         //setting worker thread
-        //gt.run();
-        //evictor.run();
+        gt.run();
+        evictor.run();
     }
 
     /**
@@ -109,9 +110,16 @@ public class ResourceLifecylceManager {
             cache.release(car);
 
             //saving owner
-            car.getOwner().setCar(car);
-            parkingOwners.add(car.getOwner());
-
+            car.setOwner(zone);
+            
+            for (Object owner: owners) {
+                Owner o = (Owner) owner;
+                if(o.getCarId()==car.getId()){
+                o.setGeneratedValue3(car.getGeneratedValue3());
+                parkingOwners.add(o);
+                }
+            }
+            
             //removing car from outside
             cars.remove(car);
 
