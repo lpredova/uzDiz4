@@ -13,6 +13,10 @@ import util.Helper;
  */
 public class View {
 
+    public static void printText(double arrivalInterval) {
+        System.out.printf("%.0f\n", arrivalInterval);
+    }
+
     public void getMenu(){
         Helper.printMenu();
     }

@@ -26,7 +26,7 @@ import theads.OwnerThread;
  *
  * @author lovro
  */
-public class ResourceLifecylceManager {
+public final class ResourceLifecylceManager {
 
     public static List cars = Collections.synchronizedList(new ArrayList());
     public static List owners = Collections.synchronizedList(new ArrayList());
@@ -55,15 +55,18 @@ public class ResourceLifecylceManager {
         ParkingEagerAcquisition newParking = ParkingEagerAcquisition.getInstance();
         parking = newParking.createParking();
 
+        runThreads();
+    }
+    
+    public static void runThreads(){
         //setting car enter thread
         ct.start();
 
         //setting owner thread
-        ot.run();
-        View.printText("Owners started!\n");
+        ot.start();
 
         //setting worker thread
-        gt.run();
+        gt.start();
         evictor.run();
     }
 
@@ -87,7 +90,7 @@ public class ResourceLifecylceManager {
         } //everything is ok and car is going to be parked
         else {
 
-            long time = System.currentTimeMillis() / 1000L;
+            long time = System.currentTimeMillis();
             //(i * maksParkiranje * vremenskaJedinica), i je broj zone
             long timeParked = zone * main.Main.timeSlot * main.Main.maxParking;
             //((brojZona + 1 - i) * cijenaJedinice), i je broj zone

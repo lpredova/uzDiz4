@@ -178,10 +178,10 @@ public class Car implements EvictionInterface, Comparable<Car> {
 
         Calendar date = Calendar.getInstance();
 
-        date.setTimeInMillis((long) (getArrivalTime() * 1000));
+        date.setTimeInMillis((long) (getArrivalTime()));
         String arrival = "  " + date.getTime();
 
-        date.setTimeInMillis((long) (getDepartureTime() * 1000));
+        date.setTimeInMillis((long) (getDepartureTime()));
         String departure = "  " + date.getTime();
 
         String info = "\nCar no:" + getId() + " entered parking lot\n"

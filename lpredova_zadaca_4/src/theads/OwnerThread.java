@@ -5,15 +5,13 @@
  */
 package theads;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import mvc.View;
 import resource.ea.Car;
 import resource.ea.Owner;
 import resource.ea.ParkingZone;
 import resource.lifecycle.ResourceLifecylceManager;
-import static resource.lifecycle.ResourceLifecylceManager.owners;
-import static resource.lifecycle.ResourceLifecylceManager.parkingOwners;
 import util.Helper;
 
 /**
@@ -29,26 +27,36 @@ public class OwnerThread implements Runnable {
     synchronized public void run() {
 
         while (isRunning) {
-            try {
-                //departure interval
-                int departureInterval;
-                List owners = ResourceLifecylceManager.parkingOwners;
 
-                if (owners.size() > 0) {
-                    for (Object owner : owners) {
-                        Owner o = (Owner) owner;
+            //departure interval
+            int departureInterval;
+            List owners = ResourceLifecylceManager.parkingOwners;
 
-                        //((vremenskaJedinica / intervalOdlaska) * generiranaVrijednost3)
-                        departureInterval = (int) ((main.Main.timeSlot / main.Main.departureInterval) * o.getGeneratedValue3());
-                        doAction(o);
-                        Thread.sleep(departureInterval);
+            if (owners.size() > 0) {
+
+                Iterator<Owner> iter = owners.iterator();
+
+                while (iter.hasNext()) {
+                    try {
+                        Owner o = iter.next();
+                        View.printText("Owners alive");
+
+                        try {
+                            //((vremenskaJedinica / intervalOdlaska) * generiranaVrijednost3)
+                            departureInterval = (int) ((main.Main.timeSlot / main.Main.departureInterval) * o.getGeneratedValue3()) + 3000;
+                            doAction(o);
+                            Thread.sleep(departureInterval);
+                        } catch (InterruptedException ex) {
+                            Thread.currentThread().interrupt();
+                        }
+
+                    } catch (Exception e) {
+                        break;
                     }
 
                 }
-
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
             }
+
         }
     }
 
@@ -90,9 +98,10 @@ public class OwnerThread implements Runnable {
 
                 //check if parking is max times extended
                 if (ownersCar.getTimesExtended() <= ownersCar.getZone().getMaxZoneExtensions()) {
-                //ok -> find and extend
+                    //ok -> find and extend
 
                     List<Car> cars = resource.lifecycle.ResourceLifecylceManager.parkingCars;
+
                     for (Car car : cars) {
                         if (ownersCar.getId() == car.getId()) {
                         //ok now we have the same car, now extend parking
@@ -119,7 +128,8 @@ public class OwnerThread implements Runnable {
                         }
                     }
 
-                } else {}
+                } else {
+                }
             }
         }
     }

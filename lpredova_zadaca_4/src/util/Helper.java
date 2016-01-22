@@ -120,7 +120,7 @@ public class Helper {
         Main.numZones = Integer.parseInt(args[1]);
         Main.zoneCapacity = Integer.parseInt(args[2]);
         Main.maxParking = Integer.parseInt(args[3]);
-        Main.timeSlot = Integer.parseInt(args[4]);
+        Main.timeSlot = Integer.parseInt(args[4])*1000;
         Main.arrivalInterval = Integer.parseInt(args[5]);
         Main.departureInterval = Integer.parseInt(args[6]);
         Main.unitPrice = Integer.parseInt(args[7]);

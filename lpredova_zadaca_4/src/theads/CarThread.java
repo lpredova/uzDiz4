@@ -22,20 +22,27 @@ public class CarThread implements Runnable {
     @Override
     synchronized public void run() {
 
+        //initial slepp
+        
+        //                        Thread.sleep(1500);
+
         //arrival interval
         //((vremenskaJedinica / intervalDolaska) * generiranaVrijednost1)
         while (isRunning) {
-            int arrivalInterval = 1000;
+            double arrivalInterval = 1000;
 
             try {
+                View.printText("Cas alive");
+
                 if (resource.lifecycle.ResourceLifecylceManager.parking.isOpen()) {
                     List<Car> cars = resource.lifecycle.ResourceLifecylceManager.cars;
                     if (cars.size() > 0) {
 
                         Car car = cars.get(0);
                         resource.lifecycle.ResourceLifecylceManager.acquire(car);
-                        arrivalInterval = (int) ((main.Main.timeSlot / main.Main.arrivalInterval) * car.getGeneratedValue1());
-                        Thread.sleep(arrivalInterval);
+                        arrivalInterval = ((main.Main.timeSlot / main.Main.arrivalInterval) * ((double)car.getGeneratedValue1()));
+        
+                        Thread.sleep((long) arrivalInterval);
 
                     }
                 } else {

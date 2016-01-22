@@ -14,10 +14,8 @@ import resource.lifecycle.ResourceLifecylceManager;
 public class Model {
 
     public Model() {
-        try {
-            resource.lifecycle.ResourceLifecylceManager rlm = new ResourceLifecylceManager();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+
+        resource.lifecycle.ResourceLifecylceManager rlm = new ResourceLifecylceManager();
+
     }
 }
