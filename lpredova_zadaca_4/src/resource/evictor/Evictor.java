@@ -5,14 +5,11 @@
  */
 package resource.evictor;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import mvc.View;
 import resource.ea.Car;
 import resource.ea.ParkingZone;
 import static resource.lifecycle.ResourceLifecylceManager.cache;
-import static resource.lifecycle.ResourceLifecylceManager.cars;
 import static resource.lifecycle.ResourceLifecylceManager.parkingCars;
 
 /**
@@ -27,7 +24,6 @@ public class Evictor implements Runnable {
 
     @Override
     public void run() {
-        View.printText("Evictor initialized");
         // For simplicity, we run forever
         while (true) {
             try {
@@ -67,9 +63,10 @@ public class Evictor implements Runnable {
                         if (carInZone.getId() == car.getId() && carInZone != null) {
                             c.beforeEviction();
                             cache.acquire(id);
-                            cars.add(c);
+                            resource.lifecycle.ResourceLifecylceManager.cars.add(c);
                             parkedCars.remove();
                             carsInZone.remove();
+                            View.printText("Car " + car.getId() + " has left parking.");
                             break;
                         }
 

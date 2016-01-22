@@ -26,10 +26,10 @@ public class OwnerThread implements Runnable {
     @Override
     synchronized public void run() {
 
-        while (isRunning) {
+        while (isRunning && !Helper.checkIfDone()) {
 
             //departure interval
-            int departureInterval;
+            double departureInterval;
             List owners = ResourceLifecylceManager.parkingOwners;
 
             if (owners.size() > 0) {
@@ -39,13 +39,11 @@ public class OwnerThread implements Runnable {
                 while (iter.hasNext()) {
                     try {
                         Owner o = iter.next();
-                        View.printText("Owners alive");
-
                         try {
                             //((vremenskaJedinica / intervalOdlaska) * generiranaVrijednost3)
-                            departureInterval = (int) ((main.Main.timeSlot / main.Main.departureInterval) * o.getGeneratedValue3()) + 3000;
+                            departureInterval = ((main.Main.timeSlot / main.Main.departureInterval) * o.getGeneratedValue3());
                             doAction(o);
-                            Thread.sleep(departureInterval);
+                            Thread.sleep((long)departureInterval);
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
@@ -89,16 +87,18 @@ public class OwnerThread implements Runnable {
 
             if (chance <= 0.25f) {
                 //do nothing
+                View.printText("Owner " + owner.getOwnerId() + " has arrived and is doing nothing");
+                ownersCar.setGeneratedValue4(Helper.randInt());
+
             } else if (chance > 0.25f && chance <= 0.50f) {
                 //exit
                 resource.lifecycle.ResourceLifecylceManager.release(ownersCar);
-
+                View.printText("Owner " + owner.getOwnerId() + " had arrived and drove car off the parking");
             } else {
             //extend parking
 
                 //check if parking is max times extended
                 if (ownersCar.getTimesExtended() <= ownersCar.getZone().getMaxZoneExtensions()) {
-                    //ok -> find and extend
 
                     List<Car> cars = resource.lifecycle.ResourceLifecylceManager.parkingCars;
 
@@ -109,7 +109,7 @@ public class OwnerThread implements Runnable {
                             //(i * maksParkiranje * vremenskaJedinica), i je broj zone
                             ParkingZone zone = ownersCar.getZone();
 
-                            long arrivalTime = System.currentTimeMillis() / 1000L;
+                            long arrivalTime = System.currentTimeMillis();
 
                             car.setArrivalTime(arrivalTime);
                             car.setDepartureTime(arrivalTime + (zone.getZoneId() * main.Main.timeSlot * main.Main.maxParking));
@@ -124,11 +124,14 @@ public class OwnerThread implements Runnable {
                             car.setGeneratedValue4(Helper.randInt());
 
                             zone.increaseZoneEarnings(paid);
+                            View.printText("Owner " + owner.getOwnerId() + " has extended parking for car " + car.getId() );
+
                             break;
                         }
                     }
 
                 } else {
+                   View.printText("Max time of extensions reched for car:  " + ownersCar.getId());
                 }
             }
         }

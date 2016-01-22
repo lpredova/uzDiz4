@@ -28,6 +28,8 @@ public class Controller {
 
         String choice = "";
         Parking parking = resource.lifecycle.ResourceLifecylceManager.parking;
+        View.printText("Cars outside: " + resource.lifecycle.ResourceLifecylceManager.cars.size());
+        
         do {
             view.getMenu();
             Scanner in = new Scanner(System.in);

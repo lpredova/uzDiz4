@@ -21,6 +21,7 @@ import theads.CarThread;
 
 import theads.GuardThread;
 import theads.OwnerThread;
+import util.Helper;
 
 /**
  *
@@ -79,6 +80,7 @@ public final class ResourceLifecylceManager {
 
         //select zone
         //(brojZona * generiranaVrijednost2) tako da sve zone imaju istu vjerojatnost odabira
+        car.setGeneratedValue2(Helper.randInt());
         int zone = (int) Math.ceil(main.Main.numZones * car.getGeneratedValue2());
 
         List<ParkingZone> zones = parking.getZones();

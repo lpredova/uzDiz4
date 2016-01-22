@@ -5,13 +5,13 @@
  */
 package theads;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import mvc.View;
 import resource.ea.Car;
 import resource.ea.ParkingZone;
+import util.Helper;
 
 /**
  * @author lovro
@@ -25,10 +25,9 @@ public class GuardThread implements Runnable {
     synchronized public void run() {
         View.printText("Guard is starting shift..");
 
-        while (isRunning) {
-            int patrolingInterval;
+        while (isRunning && !Helper.checkIfDone()) {
+            long patrolingInterval;
 
-            View.printText("Guard alive");
             try {
                 //(vremenskaJedinica / intervalKontrole)
                 patrolingInterval = (main.Main.timeSlot / main.Main.controlInterval);
@@ -79,7 +78,7 @@ public class GuardThread implements Runnable {
                     if (carDepartureTime < (long) time) {
 
                         //parking expired
-                        System.out.println("Car" + car.getId() + "Parking expired:" + departure);
+                        System.out.println("Car " + car.getId() + " parking has expired:" + departure);
 
                         //((brojZona + 1 - i) * cijenaJedinice * kaznaParkiranja)
                         long penalty = (main.Main.numZones + 1 - car.getZone().getZoneId()) * main.Main.unitPrice * main.Main.parkingPenalty;

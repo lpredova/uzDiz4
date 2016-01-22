@@ -5,10 +5,9 @@
  */
 package theads;
 
-import java.util.ArrayList;
-import java.util.List;
 import mvc.View;
 import resource.ea.Car;
+import util.Helper;
 
 /**
  *
@@ -22,26 +21,34 @@ public class CarThread implements Runnable {
     @Override
     synchronized public void run() {
 
-        //initial slepp
-        
-        //                        Thread.sleep(1500);
-
         //arrival interval
         //((vremenskaJedinica / intervalDolaska) * generiranaVrijednost1)
-        while (isRunning) {
-            double arrivalInterval = 1000;
+        while (isRunning && !Helper.checkIfDone()) {
+            double arrivalInterval = 0;
 
             try {
-                View.printText("Cas alive");
-
                 if (resource.lifecycle.ResourceLifecylceManager.parking.isOpen()) {
-                    List<Car> cars = resource.lifecycle.ResourceLifecylceManager.cars;
-                    if (cars.size() > 0) {
+                    if (resource.lifecycle.ResourceLifecylceManager.cars.size() > 0) {
+                        Car car = null;
+                        while (car == null) {
+                            try {
 
-                        Car car = cars.get(0);
-                        resource.lifecycle.ResourceLifecylceManager.acquire(car);
-                        arrivalInterval = ((main.Main.timeSlot / main.Main.arrivalInterval) * ((double)car.getGeneratedValue1()));
-        
+                                car = (Car) resource.lifecycle.ResourceLifecylceManager.cars.get(0);
+
+                                resource.lifecycle.ResourceLifecylceManager.acquire(car);
+                                arrivalInterval = ((main.Main.timeSlot / main.Main.arrivalInterval) * ((double) car.getGeneratedValue1()));
+
+                            } catch (Exception e) {
+                                System.out.print(e);
+                                continue;
+                            }
+                        }
+
+                        if (arrivalInterval == 0) {
+                            arrivalInterval = ((main.Main.timeSlot / main.Main.arrivalInterval) * Helper.randInt());
+                        }
+
+                        View.printText("Cars outside: " + resource.lifecycle.ResourceLifecylceManager.cars.size());
                         Thread.sleep((long) arrivalInterval);
 
                     }
@@ -66,5 +73,9 @@ public class CarThread implements Runnable {
     public void kill() {
         isRunning = false;
         carThread = null;
+    }
+
+    public void doAction() {
+
     }
 }
